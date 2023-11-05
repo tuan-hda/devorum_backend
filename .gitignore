@@ -1,3 +1,5 @@
 # user service
-user_service/node_modules
-user_service/.env
+users/node_modules
+users/.env
+
+db
