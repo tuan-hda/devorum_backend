@@ -1,1 +1,34 @@
 version: '3'
+
+services:
+
+  nosql-db:
+    image: mongo
+    ports:
+      - "27018:27017"
+    container_name: nosql-db
+    volumes:
+      - ./db/:/data/db
+
+  users:
+    build:
+      dockerfile: Dockerfile
+      context: ./user_service
+    container_name: users
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/users/node_modules
+
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    depends_on:
+      - users
+    ports:
+      - "80:80"
