@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:1.25
 
 RUN rm /etc/nginx/nginx.conf
 
