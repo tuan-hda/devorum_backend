@@ -13,7 +13,7 @@ connection.once('open', () => {
   console.log(new Date(), 'database established successfully')
 })
 
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
