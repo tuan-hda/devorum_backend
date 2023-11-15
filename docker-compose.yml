@@ -21,7 +21,7 @@ services:
     depends_on:
       - "nosql-db"
     volumes:
-      - .:/app
+      - ./users:/app/users
       - /app/users/node_modules
 
   nginx-proxy:
