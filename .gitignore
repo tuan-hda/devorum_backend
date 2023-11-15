@@ -3,3 +3,4 @@ users/node_modules
 users/.env
 
 db
+.DS_Store
