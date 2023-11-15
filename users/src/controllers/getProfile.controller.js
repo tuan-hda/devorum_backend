@@ -9,7 +9,7 @@ const express = require('express')
  */
 const getProfile = async (req, res, next) => {
   try {
-    const username = req.query.username
+    const username = req.params.username
 
     if (!username) {
       return res.status(400).json({
@@ -20,6 +20,12 @@ const getProfile = async (req, res, next) => {
     const user = await UserModel.findOne({
       username,
     })
+
+    if (!user) {
+      return res.status(404).json({
+        msg: 'User not found',
+      })
+    }
 
     return res.status(200).json(user)
   } catch (error) {
