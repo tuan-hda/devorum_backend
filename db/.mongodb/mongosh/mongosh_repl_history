@@ -1,0 +1,17 @@
+db.follows.find()
+db.follows.show()
+use user_db
+show dbs
+show collections
+use users
+db.follows.getIndexes()
+db.follows.find()
+show collections
+ls
+use user_db
+sl
+db.users.find()
+show collections
+ls
+use user_db
+show dbs
