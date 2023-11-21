@@ -1,7 +1,6 @@
 const { ObjectId } = require('mongodb')
 const UserModel = require('../../models/User')
 const express = require('express')
-const FollowModel = require('../../models/Follow')
 /**
  *
  * @param {express.Request} req
