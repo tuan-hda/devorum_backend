@@ -7,6 +7,7 @@ const usersRoute = require('./routes/users.route.js')
 const bodyParser = require('body-parser')
 const relationshipRoute = require('./routes/relationship.route.js')
 const { isHttpError } = require('http-errors')
+const { createChannel } = require('./utils/rabbitMq.js')
 // connect db
 mongoose.connect(config.DB_CONN_STR)
 const connection = mongoose.connection
@@ -14,6 +15,7 @@ connection.once('open', () => {
   console.log(new Date(), 'database established successfully')
 })
 
+createChannel()
 app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

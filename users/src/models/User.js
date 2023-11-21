@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { socialMediasEnum } = require('../configs/enum')
 
 const UserSchema = new mongoose.Schema(
   {
@@ -29,6 +30,9 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    website: String,
+    github: String,
+    x: String,
   },
   {
     timestamps: true,
