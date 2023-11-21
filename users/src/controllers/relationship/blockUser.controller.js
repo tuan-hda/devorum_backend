@@ -1,6 +1,7 @@
 const createError = require('http-errors')
 const { validationResult } = require('express-validator')
-const FollowSchema = require('../../models/Follow')
+const BlockModel = require('../../models/Block')
+const createHttpError = require('http-errors')
 
 const blockUserController = async (req, res, next) => {
   const errors = validationResult(req)
@@ -12,13 +13,25 @@ const blockUserController = async (req, res, next) => {
   try {
     const to = req.body.to
     const from = req.user._id
-    const follow = new FollowSchema({
-      to: to,
+
+    const prevBlock = await BlockModel.findOne({
+      to,
       from,
     })
 
-    const response = await follow.save()
-    return res.status(200).json(response)
+    if (prevBlock) {
+      if (!prevBlock.effective)
+        throw new createHttpError[400]("You can't block a user again whom you unblocked for less than 24 hours")
+      else throw new createHttpError[400]('You already blocked this person')
+    }
+
+    const block = new BlockModel({
+      to,
+      from,
+    })
+
+    await block.save()
+    return res.status(200).json({ msg: 'Blocked user successfully' })
   } catch (error) {
     if (error.code === 11000) {
       return next(createError[400]('Already followed this user'))
