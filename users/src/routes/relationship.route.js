@@ -3,12 +3,15 @@ const followUserController = require('../controllers/relationship/followUser.con
 const { authenticateJWT } = require('../middlewares/auth.middleware')
 const { validateNewFollow, validateNewBlock } = require('../validators/follow.validator')
 const unfollowUserController = require('../controllers/relationship/unfollowUser.controller')
+const blockUserController = require('../controllers/relationship/blockUser.controller')
+const unblockUserController = require('../controllers/relationship/unblockUser.controller')
 
 const router = express.Router()
 
 router.post('/follow', authenticateJWT, validateNewFollow(), followUserController)
 router.delete('/follow/:id', authenticateJWT, unfollowUserController)
 
-router.post('/block', authenticateJWT, validateNewBlock(), followUserController)
+router.post('/block', authenticateJWT, validateNewBlock(), blockUserController)
+router.delete('/block/:id', authenticateJWT, unblockUserController)
 
 module.exports = router

@@ -1,6 +1,6 @@
 const createError = require('http-errors')
 const { validationResult } = require('express-validator')
-const FollowSchema = require('../../models/Follow')
+const FollowModel = require('../../models/Follow')
 
 const followUserController = async (req, res, next) => {
   const errors = validationResult(req)
@@ -12,13 +12,13 @@ const followUserController = async (req, res, next) => {
   try {
     const to = req.body.to
     const from = req.user._id
-    const follow = new FollowSchema({
+    const follow = new FollowModel({
       to: to,
       from,
     })
 
-    const response = await follow.save()
-    return res.status(200).json(response)
+    await follow.save()
+    return res.status(200).json({ msg: 'Followed user successfully' })
   } catch (error) {
     if (error.code === 11000) {
       return next(createError[400]('Already followed this user'))
