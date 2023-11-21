@@ -15,8 +15,13 @@ const unblockUserController = async (req, res, next) => {
       throw createError[400]('You have not blocked this person yet')
     }
 
-    const oneDayAfter = moment().add(1, 'minute').utc()
+    if (!block.effective) {
+      throw createError[400]('You have just unblocked this person')
+    }
+
+    const oneDayAfter = moment().add(24, 'hours').utc()
     block.expiresAfter = oneDayAfter
+    block.effective = false
     await block.save()
 
     res.status(200).json({

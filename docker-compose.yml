@@ -22,7 +22,6 @@ services:
       - "nosql-db"
     volumes:
       - ./users:/app/users
-      - /app/users/node_modules
 
   nginx-proxy:
     build:

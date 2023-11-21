@@ -12,6 +12,15 @@ const BlockSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    effective: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    expiresAfter: {
+      type: Date,
+      required: false,
+    },
   },
   {
     timestamps: true,
@@ -19,7 +28,7 @@ const BlockSchema = new mongoose.Schema(
 )
 
 BlockSchema.index({ to: 1, from: 1 }, { unique: true })
-BlockSchema.index({ expiresAfter: 1 }, { expireAfterSeconds: 0 })
+BlockSchema.index({ expiresAfter: 1 }, { expireAfterSeconds: 1 })
 
 const BlockModel = mongoose.model('block', BlockSchema)
 

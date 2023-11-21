@@ -20,13 +20,13 @@ const blockUserController = async (req, res, next) => {
     })
 
     if (prevBlock) {
-      if (prevBlock.expiresAfter !== undefined && prevBlock.expiresAfter !== null)
+      if (!prevBlock.effective)
         throw new createHttpError[400]("You can't block a user again whom you unblocked for less than 24 hours")
-      else throw new createHttpError[400]("You can't block a user again")
+      else throw new createHttpError[400]('You already blocked this person')
     }
 
     const block = new BlockModel({
-      to: to,
+      to,
       from,
     })
 
