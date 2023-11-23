@@ -1,7 +1,7 @@
 const UserModel = require('../../models/User')
 
 const updateProfile = async (req, res, next) => {
-  const { fullName, avatar, banner, about, website, github, x } = req.body
+  const { fullName, avatar, banner, about, website, github, x, work, education, position } = req.body
 
   try {
     const user = req.user
@@ -19,6 +19,9 @@ const updateProfile = async (req, res, next) => {
           website,
           github,
           x,
+          work,
+          education,
+          position,
         },
       }
     )
