@@ -2,5 +2,9 @@
 users/node_modules
 users/.env
 
+# upload service
+upload/node_modules
+upload/.env
+
 .DS_Store
 db/
