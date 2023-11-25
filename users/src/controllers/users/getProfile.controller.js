@@ -37,7 +37,23 @@ const getProfile = async (req, res, next) => {
             ],
           },
         },
-        { $unwind: { preserveNullAndEmptyArrays: true, path: '$followStatus' } }
+        {
+          $lookup: {
+            as: 'blockStatus',
+            from: 'blocks',
+            foreignField: 'to',
+            localField: '_id',
+            pipeline: [
+              {
+                $match: {
+                  from: new ObjectId(authUser._id),
+                },
+              },
+            ],
+          },
+        },
+        { $unwind: { preserveNullAndEmptyArrays: true, path: '$followStatus' } },
+        { $unwind: { preserveNullAndEmptyArrays: true, path: '$blockStatus' } }
       )
     }
 
