@@ -6,14 +6,17 @@ const unfollowUserController = require('../controllers/relationship/unfollowUser
 const blockUserController = require('../controllers/relationship/blockUser.controller')
 const unblockUserController = require('../controllers/relationship/unblockUser.controller')
 const getFollowInformationController = require('../controllers/relationship/getFollowInformationController.controller')
+const getBlockInformationController = require('../controllers/relationship/getBlockInformationController.controller')
+const excludeYourself = require('../middlewares/excludeYourself.middleware')
 
 const router = express.Router()
 
 router.get('/follow', authenticateJWT, getFollowInformationController)
-router.post('/follow', authenticateJWT, validateNewFollow(), followUserController)
-router.delete('/follow/:id', authenticateJWT, unfollowUserController)
+router.post('/follow', authenticateJWT, excludeYourself, validateNewFollow(), followUserController)
+router.delete('/follow/:id', authenticateJWT, excludeYourself, unfollowUserController)
 
-router.post('/block', authenticateJWT, validateNewBlock(), blockUserController)
-router.delete('/block/:id', authenticateJWT, unblockUserController)
+router.get('/block', authenticateJWT, getBlockInformationController)
+router.post('/block', authenticateJWT, excludeYourself, validateNewBlock(), blockUserController)
+router.delete('/block/:id', authenticateJWT, excludeYourself, unblockUserController)
 
 module.exports = router

@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator')
 const BlockModel = require('../../models/Block')
 const createHttpError = require('http-errors')
+const FollowModel = require('../../models/Follow')
 
 const blockUserController = async (req, res, next) => {
   const errors = validationResult(req)
@@ -23,6 +24,12 @@ const blockUserController = async (req, res, next) => {
         throw new createHttpError[400]("You can't block a user again whom you unblocked for less than 24 hours")
       else throw new createHttpError[400]('You already blocked this person')
     }
+
+    // Remove follow status of this user
+    await FollowModel.deleteOne({
+      to: req.body.to,
+      from: req.user._id,
+    })
 
     const block = new BlockModel({
       to,

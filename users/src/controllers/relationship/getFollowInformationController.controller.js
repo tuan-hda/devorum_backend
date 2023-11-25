@@ -4,21 +4,21 @@ const getFollowInformationController = async (req, res, next) => {
   try {
     const user = req.user
 
-    const following = await FollowModel.find({
-      from: user._id,
-    })
     const followers = await FollowModel.find({
       to: user._id,
-    })
+    }).populate('from')
+    const followings = await FollowModel.find({
+      from: user._id,
+    }).populate('to')
 
     res.status(200).json({
-      followed: {
-        total: following.length,
-        data: following,
-      },
-      follows: {
+      followers: {
         total: followers.length,
         data: followers,
+      },
+      followings: {
+        total: followings.length,
+        data: followings,
       },
     })
   } catch (error) {
