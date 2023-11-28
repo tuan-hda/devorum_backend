@@ -2,5 +2,9 @@
 users/node_modules
 users/.env
 
+#post service
+post/node_modules
+
 .DS_Store
 db/
+node_modules/
