@@ -5,7 +5,7 @@ users/.env
 # upload service
 upload/node_modules
 upload/.env
-upload/uploads
+upload/uploads/*
 
 .DS_Store
 db/
