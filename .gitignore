@@ -4,6 +4,10 @@ users/.env
 
 #post service
 post/node_modules
+# upload service
+upload/node_modules
+upload/.env
+upload/uploads/*
 
 .DS_Store
 db/
