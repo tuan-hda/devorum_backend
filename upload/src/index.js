@@ -11,16 +11,14 @@ const { S3Client } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const createHttpError = require('http-errors')
 
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-const accessKeyId = process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
-
 app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-const s3Client = new S3Client({ region, credentials: { accessKeyId, secretAccessKey } })
+const s3Client = new S3Client({
+  region: config.AWS_BUCKET_REGION,
+  credentials: { accessKeyId: config.AWS_ACCESS_KEY, secretAccessKey: config.AWS_SECRET_KEY },
+})
 
 app.post('/', upload.single('file'), async (req, res, next) => {
   try {
@@ -29,7 +27,12 @@ app.post('/', upload.single('file'), async (req, res, next) => {
     }
     var file = req.file
 
-    const target = { Bucket: bucketName, Key: req.file.originalname, Body: fs.createReadStream(file.path) }
+    const target = {
+      Bucket: config.AWS_BUCKET_NAME,
+      region: config.DOMAIN_NAME,
+      Key: req.file.originalname,
+      Body: fs.createReadStream(file.path),
+    }
     const parallelUploads3 = new Upload({
       client: s3Client,
       queueSize: 4,
@@ -37,18 +40,20 @@ app.post('/', upload.single('file'), async (req, res, next) => {
       params: target,
     })
 
-    parallelUploads3.on('httpUploadProgress', (progress) => {
-      console.log(progress)
-    })
+    const response = await parallelUploads3.done()
 
-    await parallelUploads3.done()
-
-    return res.status(201).json({
-      msg: 'Uploaded successfully',
-    })
+    return res.status(201).json(response)
+    // return res.status(201).json({
+    //   link: `${config.DOMAIN_NAME}data`,
+    // })
   } catch (error) {
     next(error)
   }
+})
+
+app.post('/data/:name', (req, res) => {
+  const name = req.params.name
+  res.redirect(config.AWS_CLOUDFRONT_DOMAIN + name)
 })
 
 app.use((err, req, res, next) => {
