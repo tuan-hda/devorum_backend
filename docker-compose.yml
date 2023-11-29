@@ -1,7 +1,6 @@
-version: '3'
+version: "3"
 
 services:
-
   nosql-db:
     image: mongo:7.0-rc
     ports:
@@ -9,6 +8,17 @@ services:
     container_name: nosql-db
     volumes:
       - ./db/:/data/db
+
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: proxy
+    depends_on:
+      - users
+      - upload
+      - posts
+    ports:
+      - "80:80"
 
   users:
     build:
@@ -34,12 +44,15 @@ services:
     volumes:
       - ./upload:/app/upload
 
-  nginx-proxy:
+  posts:
     build:
       dockerfile: Dockerfile
-      context: proxy
-    depends_on:
-      - users
-      - upload
+      context: posts
+    container_name: posts
     ports:
-      - "80:80"
+      - "8003:8003"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./posts:/app/posts
