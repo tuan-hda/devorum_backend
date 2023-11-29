@@ -1,5 +1,4 @@
 const UserModel = require('../../models/User')
-
 const getCurrentProfile = async (req, res, next) => {
   try {
     // const succeed = channel.publish(config.EXCHANGE_NAME, 'users', Buffer.from('hello test publish'), {
