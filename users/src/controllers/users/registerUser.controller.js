@@ -9,11 +9,13 @@ const registerUser = async (req, res, next) => {
   }
 
   try {
-    const data = {}
-    for (let [key, value] of Object.entries(req.body)) {
-      data[key] = value
+    const data = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
     }
-    delete data.points
+
+    // delete data.points
 
     const newUser = new UserModel(data)
     const result = await newUser.save()

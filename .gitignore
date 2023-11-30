@@ -1,6 +1,7 @@
 # user service
 users/node_modules
 users/.env
+users/coverage
 
 # upload service
 upload/node_modules
