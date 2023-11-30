@@ -26,5 +26,5 @@ jobs:
     - name: Test User Service
       working-directory: ./users
       run: |
-        npm ci
-        npm test
+        yarn install --frozen-lockfile
+        yarn test
