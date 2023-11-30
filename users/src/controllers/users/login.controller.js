@@ -22,11 +22,11 @@ const login = async (req, res, next) => {
       })
     }
 
-    // if (!(await user.comparePassword(password))) {
-    //   return res.status(401).json({
-    //     msg: 'Authentication failed. Incorrect password.',
-    //   })
-    // }
+    if (!(await user.comparePassword(password))) {
+      return res.status(401).json({
+        msg: 'Authentication failed. Incorrect password.',
+      })
+    }
 
     const token = generateToken(user)
 
