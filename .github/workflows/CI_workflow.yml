@@ -22,9 +22,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: './users/yarn.lock'
 
     - name: Test User Service
       run: |
-        working-directory: users
         yarn install --frozen-lockfile
         yarn test
