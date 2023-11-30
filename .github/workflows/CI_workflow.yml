@@ -21,10 +21,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: 'npm'
 
     - name: Test User Service
-      working-directory: ./users/
+      working-directory: users
       run: |
-        yarn
+        yarn install --frozen-lockfile
         yarn test
