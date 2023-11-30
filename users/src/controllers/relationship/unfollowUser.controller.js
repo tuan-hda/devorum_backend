@@ -1,18 +1,11 @@
 const createError = require('http-errors')
-const { validationResult } = require('express-validator')
-const FollowSchema = require('../../models/Follow')
+const FollowModel = require('../../models/Follow')
 
 const unfollowUserController = async (req, res, next) => {
-  const errors = validationResult(req)
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json(errors)
-  }
-
   try {
     const to = req.params.id
     const from = req.user._id
-    const follow = await FollowSchema.findOne({
+    const follow = await FollowModel.findOne({
       to,
       from,
     })

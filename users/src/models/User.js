@@ -29,6 +29,12 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    website: String,
+    github: String,
+    x: String,
+    work: String,
+    education: String,
+    position: String,
   },
   {
     timestamps: true,

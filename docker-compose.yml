@@ -22,7 +22,17 @@ services:
       - "nosql-db"
     volumes:
       - ./users:/app/users
-      - /app/users/node_modules
+
+  upload:
+    build:
+      dockerfile: Dockerfile
+      context: upload
+    container_name: upload
+    ports:
+      - "8002:8002"
+    restart: always
+    volumes:
+      - ./upload:/app/upload
 
   nginx-proxy:
     build:
@@ -30,5 +40,6 @@ services:
       context: proxy
     depends_on:
       - users
+      - upload
     ports:
       - "80:80"
