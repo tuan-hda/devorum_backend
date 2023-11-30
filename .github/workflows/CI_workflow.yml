@@ -24,7 +24,7 @@ jobs:
         cache: 'npm'
 
     - name: Test User Service
-      working-directory: users
       run: |
+        working-directory: users
         yarn install --frozen-lockfile
         yarn test
