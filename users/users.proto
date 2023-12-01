@@ -1,0 +1,5 @@
+syntax = 'proto3';
+
+service Users {
+    rpc GetUserById(UserRequest) returns (UserResponse)
+}

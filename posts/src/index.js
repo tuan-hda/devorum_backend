@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const postsRoute = require("./routes/posts.route");
 const PostModel = require("./models/Post");
 
+
 // connect db
 mongoose.connect(config.DB_CONN_STR);
 const connection = mongoose.connection;
