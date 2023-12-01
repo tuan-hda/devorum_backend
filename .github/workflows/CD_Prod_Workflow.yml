@@ -40,15 +40,15 @@ jobs:
 
       - name: Unzip file
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'sudo chmod 777 /opt/deploy/deploy_package.zip && unzip -o /opt/deploy/deploy_package.zip -d ./devorum_backend'
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy && sudo chmod 777 ./deploy_package.zip && unzip -o ./deploy_package.zip -d ./devorum_backend'
       
       - name: build -> stop running docker compose -> up again
         run: |
           ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose stop && docker-compose up -d'
 
-      # - name: Remove zip file
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy && rm deploy_package.zip'
+      - name: Remove zip file
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy && rm deploy_package.zip'
 
 
 
