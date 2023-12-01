@@ -1,4 +1,4 @@
-name: Deploy on QA
+name: Deploy on Production
 
 on:
   push:
@@ -6,11 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
     
-# env:
-#   KEY: ${{ secrets.KEY }}
-
 jobs:
-  deploy_on_qa:
+  deploy_on_prod:
     runs-on: ubuntu-latest
 
     steps:
