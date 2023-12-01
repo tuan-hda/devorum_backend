@@ -1,13 +1,11 @@
-name: Deploy on QA
+name: Deploy on Production
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    branches: [ "main" ]
     
 jobs:
-  deploy_on_qa:
+  deploy_on_prod:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,7 +40,7 @@ jobs:
 
       - name: Unzip file
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy && sudo chmod 777 ./deploy_package.zip && unzip -o ./deploy_package.zip -d ./devorum_backend'
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.QA_USERNAME }}@${{ secrets.QA_HOST }} 'cd /opt/deploy && sudo chmod 777 ./deploy_package.zip && unzip -o ./deploy_package.zip -d ./devorum_backend'
       
       - name: build -> stop running docker compose -> up again
         run: |
