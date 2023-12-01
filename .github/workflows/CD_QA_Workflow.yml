@@ -11,7 +11,6 @@ permissions:
 
 jobs:
   deploy_on_qa:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,41 +24,57 @@ jobs:
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo PORT=8000 >> .env
           cat .env
-          
+
       - name: Create ZIP deployment package
         run: zip -r deploy_package.zip ./
 
-      - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v4.0.1
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.KEY }}
+          source: "deploy_package.zip"
+          target: "/opt/deploy/"
 
-      - name: Upload package to S3 bucket
-        run: aws s3 cp deploy_package.zip s3://devorum-beanstalk-bucket/
-
-      - name: Create new ElasticBeanstalk Application Version
+      - name: Set permissions for private key
         run: |
-          aws elasticbeanstalk create-application-version \
-          --application-name devorum-backend \
-          --source-bundle S3Bucket="devorum-beanstalk-bucket",S3Key="deploy_package.zip" \
-          --version-label "ver-${{ github.sha }}" \
-          --description "commit-sha-${{ github.sha }}"
+          echo "${{ env.KEY }}" > key.pem
+          chmod 600 key.pem
 
-      - name: Deploy new ElasticBeanstalk Application Version
-        run: aws elasticbeanstalk update-environment --environment-name Devorum-backend-env --version-label "ver-${{ github.sha }}"
+      - name: Stop running docker compose
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy/devorum-backend && docker-compose stop'
 
+      - name: Unzip file
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'unzip -o /opt/deploy/deploy_package.zip -d ./devorum_backend'
 
-      # - name: Deploy on Elastic beanstalk QA Env
-      #   uses: einaregilsson/beanstalk-deploy@v21
+      - name: Run docker compose again
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy/devorum-backend && docker-compose build && docker-compose up -d'
+
+      # - name: configureawscredentials
+      #   uses: aws-actions/configure-aws-credentials@v4.0.1
       #   with:
-      #     # aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     # aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     application_name: devorum-server
-      #     environment_name: Devorum-env
-      #     version_label: "ver-${{ github.sha }}"
-      #     # version_label: devorum-server-1.0.0
-      #     region: ap-southeast-1
-      #     deployment_package: deploy.zip
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+
+      # - name: Upload package to S3 bucket
+      #   run: aws s3 cp deploy_package.zip s3://devorum-beanstalk-bucket/
+
+      # - name: Create new ElasticBeanstalk Application Version
+      #   run: |
+      #     aws elasticbeanstalk create-application-version \
+      #     --application-name devorum-backend \
+      #     --source-bundle S3Bucket="devorum-beanstalk-bucket",S3Key="deploy_package.zip" \
+      #     --version-label "ver-${{ github.sha }}" \
+      #     --description "commit-sha-${{ github.sha }}"
+
+      # - name: Deploy new ElasticBeanstalk Application Version
+      #   run: aws elasticbeanstalk update-environment --environment-name Devorum-backend-env --version-label "ver-${{ github.sha }}"
+
+
 
