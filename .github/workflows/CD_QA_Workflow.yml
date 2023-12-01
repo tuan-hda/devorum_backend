@@ -45,7 +45,7 @@ jobs:
 
       - name: Stop running docker compose
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum-backend && docker-compose stop'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose stop'
 
       - name: Unzip file
         run: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Run docker compose again
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum-backend && docker-compose build && docker-compose up -d'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose up -d'
 
       # - name: configureawscredentials
       #   uses: aws-actions/configure-aws-credentials@v4.0.1
