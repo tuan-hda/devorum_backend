@@ -28,7 +28,7 @@ jobs:
           zip -r deploy.zip . -x '*.git'
 
       - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v4.0.1
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
           role-session-name: aws-elasticbeanstalk-ec2-role	
