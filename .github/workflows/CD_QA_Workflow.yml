@@ -31,7 +31,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-          role-session-name: aws-actions/configure-aws-credentials
+          role-session-name: aws-elasticbeanstalk-ec2-role	
           aws-region: us-east-1
 
       - name: Deploy on Elastic beanstalk QA Env
