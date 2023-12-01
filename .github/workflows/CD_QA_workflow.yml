@@ -42,7 +42,7 @@ jobs:
 
       - name: Unzip file
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.QA_USERNAME }}@${{ secrets.QA_HOST }} 'sudo chmod 777 /opt/deploy/deploy_package.zip && unzip -o /opt/deploy/deploy_package.zip -d ./devorum_backend'
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.QA_USERNAME }}@${{ secrets.QA_HOST }} 'cd /opt/deploy && sudo chmod 777 ./deploy_package.zip && unzip -o ./deploy_package.zip -d ./devorum_backend'
       
       - name: build -> stop running docker compose -> up again
         run: |
