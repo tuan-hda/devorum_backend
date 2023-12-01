@@ -1,4 +1,4 @@
-name: Deploy on Production
+name: Deploy on QA
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
     
 jobs:
-  deploy_on_prod:
+  deploy_on_qa:
     runs-on: ubuntu-latest
 
     steps:
