@@ -1,7 +1,7 @@
 name: Deploy on Production
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
     
 jobs:
