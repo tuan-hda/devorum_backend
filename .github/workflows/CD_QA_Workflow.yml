@@ -40,8 +40,8 @@ jobs:
       - name: Deploy on Elastic beanstalk QA Env
         uses: einaregilsson/beanstalk-deploy@v21
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: devorum-server
           environment_name: Devorum-env
           version_label: "ver-${{ github.sha }}"
