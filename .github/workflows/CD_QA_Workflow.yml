@@ -32,10 +32,10 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: devorum_backend
-          environment_name: Devorumbackend-env
+          application_name: devorum-server
+          environment_name: Devorum-server-env
           version_label: "ver-${{ github.sha }}"
-          region: ap-southeast-2
+          region: ap-southeast-1
           deployment_package: deploy.zip
 
 
