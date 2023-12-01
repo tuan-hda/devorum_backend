@@ -43,17 +43,17 @@ jobs:
           echo "${{ env.KEY }}" > key.pem
           chmod 600 key.pem
 
-      - name: Stop running docker compose
-        run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose stop'
-
       - name: Unzip file
         run: |
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'sudo chmod 777 /opt/deploy/deploy_package.zip && unzip -o /opt/deploy/deploy_package.zip -d ./devorum_backend'
-
-      - name: Run docker compose again
+      
+      - name: build -> stop running docker compose -> up again
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose up -d'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose stop && docker-compose up -d'
+
+      # - name: Up docker compose again
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-142-239-180.ap-southeast-1.compute.amazonaws.com 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose up -d'
 
       # - name: configureawscredentials
       #   uses: aws-actions/configure-aws-credentials@v4.0.1
