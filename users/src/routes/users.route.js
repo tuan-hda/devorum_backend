@@ -11,7 +11,7 @@ const router = express.Router()
 
 router.get('/test-cicd', (req, res) => {
   res.status(200).json({
-    msg: 'Hello world',
+    msg: 'Hello world there',
   })
 })
 
