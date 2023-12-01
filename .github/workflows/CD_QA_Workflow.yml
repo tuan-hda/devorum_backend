@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
     
-env:
-  KEY: ${{ secrets.KEY }}
+# env:
+#   KEY: ${{ secrets.KEY }}
 
 jobs:
   deploy_on_qa:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Set permissions for private key
         run: |
-          echo "${{ env.KEY }}" > key.pem
+          echo "${{ secrets.KEY }}" > key.pem
           chmod 600 key.pem
 
       - name: Unzip file
@@ -51,6 +51,9 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy/devorum_backend && docker-compose build && docker-compose stop && docker-compose up -d'
 
+      - name: Remove zip file
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /opt/deploy && rm deploy_package.zip'
 
 
 
