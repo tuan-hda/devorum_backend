@@ -38,5 +38,4 @@ jobs:
           # version_label: devorum-server-1.0.0
           region: ap-southeast-1
           deployment_package: deploy.zip
-          use_existing_version_if_available: true
 
