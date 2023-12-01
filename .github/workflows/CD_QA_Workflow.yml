@@ -28,14 +28,14 @@ jobs:
           zip -r deploy.zip . -x '*.git'
 
       - name: Deploy on Elastic beanstalk QA Env
-        uses: einaregilsson/beanstalk-deploy@v21
+        uses: einaregilsson/beanstalk-deploy@v20
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: devorum-server
           environment_name: Devorum-server-env
-          # version_label: "ver-${{ github.sha }}"
-          version_label: devorum-server-1.0.0
+          version_label: "ver-${{ github.sha }}"
+          # version_label: devorum-server-1.0.0
           region: ap-southeast-1
           deployment_package: deploy.zip
 
