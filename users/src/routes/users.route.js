@@ -9,6 +9,12 @@ const updateProfile = require('../controllers/users/updateProfile.controller')
 const getOverviewQuicksortController = require('../controllers/users/getOverviewQuicksort.controller')
 const router = express.Router()
 
+router.get('/test-cicd', (req, res) => {
+  res.status(200).json({
+    msg: 'Hello world',
+  })
+})
+
 router.post('/register', validateNewUser(), registerUser)
 router.post('/login', validateLogin(), login)
 
