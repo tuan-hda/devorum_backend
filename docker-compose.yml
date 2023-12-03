@@ -32,6 +32,7 @@ services:
       - "nosql-db"
     volumes:
       - ./users:/app/users
+      - ./protos:/app/protos
 
   upload:
     build:
@@ -56,3 +57,7 @@ services:
       - "nosql-db"
     volumes:
       - ./posts:/app/posts
+      
+volumes:
+  protos:
+    external: true

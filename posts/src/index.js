@@ -4,7 +4,7 @@ const config = require("./configs/config");
 const mongoose = require("mongoose");
 const postsRoute = require("./routes/posts.route");
 const PostModel = require("./models/Post");
-
+const getUserById = require("./utils/gRPC");
 
 // connect db
 mongoose.connect(config.DB_CONN_STR);
@@ -87,6 +87,7 @@ connection.once("open", async () => {
 });
 
 app.use("/", postsRoute);
+getUserById("65601f418c702f4a28bc1e71");
 
 app.listen(config.PORT, () => {
   console.log(new Date(), "listening on port:", config.PORT);
