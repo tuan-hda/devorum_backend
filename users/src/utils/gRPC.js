@@ -1,4 +1,4 @@
-var PROTO_PATH = "/app/protos/users.proto";
+var PROTO_PATH = "./protos/messages/user_message.proto";
 var grpc = require("@grpc/grpc-js");
 var protoLoader = require("@grpc/proto-loader");
 const getUserInfo = require("../controllers/users/getUserInfo.controller");

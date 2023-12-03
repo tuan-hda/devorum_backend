@@ -5,6 +5,10 @@ const getAllPosts = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
+    console.log(
+      "🚀 ~ file: getAllPosts.controller.js:8 ~ getAllPosts ~ limit:",
+      limit
+    );
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
