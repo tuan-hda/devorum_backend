@@ -1,4 +1,4 @@
-var PROTO_PATH = "./protos/messages/user_message.proto";
+var PROTO_PATH = "/app/protos/users.proto";
 var grpc = require("@grpc/grpc-js");
 var protoLoader = require("@grpc/proto-loader");
 const getUserInfo = require("../controllers/users/getUserInfo.controller");
@@ -11,7 +11,9 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   defaults: true,
   oneofs: true,
 });
-var usersProto = grpc.loadPackageDefinition(packageDefinition);
+
+var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+const service = protoDescriptor.users.proto.Users.service;
 
 function getUser(call, callback) {
   const requestId = call.request.id;
@@ -21,11 +23,12 @@ function getUser(call, callback) {
 
 function startServer() {
   var server = new grpc.Server();
-  server.addService(usersProto.Users.service, { getUser: getUser });
+  server.addService(service, { getUser: getUser });
   server.bindAsync(
     "0.0.0.0:50051",
     grpc.ServerCredentials.createInsecure(),
     () => {
+      console.log("Start gRPC server at port 50051");
       server.start();
     }
   );

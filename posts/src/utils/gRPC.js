@@ -1,4 +1,4 @@
-var PROTO_PATH = "./protos/messages/user_message.proto";
+var PROTO_PATH = "/app/protos/users.proto";
 var grpc = require("@grpc/grpc-js");
 var protoLoader = require("@grpc/proto-loader");
 
@@ -10,10 +10,11 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   defaults: true,
   oneofs: true,
 });
-var usersProto = grpc.loadPackageDefinition(packageDefinition);
+var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
+console.log("🚀 ~ file: gRPC.js:14 ~ protoDescriptor:", protoDescriptor);
 
 function getUserById(id) {
-  var server = new usersProto.Users(
+  var server = new protoDescriptor.Users(
     "localhost:50051",
     grpc.credentials.createInsecure()
   );

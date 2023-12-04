@@ -57,7 +57,7 @@ services:
       - "nosql-db"
     volumes:
       - ./posts:/app/posts
-      
+      - ./protos:/app/protos
+
 volumes:
   protos:
-    external: true
