@@ -11,16 +11,16 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   oneofs: true,
 });
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
-console.log("🚀 ~ file: gRPC.js:14 ~ protoDescriptor:", protoDescriptor);
 
 function getUserById(id) {
-  var server = new protoDescriptor.Users(
+  var server = new protoDescriptor.users.proto.Users(
     "localhost:50051",
     grpc.credentials.createInsecure()
   );
-  server.getUser({ id }, function (err, res) {
+  console.log("🚀 ~ file: gRPC.js:20 ~ getUserById ~ server:", server);
+  server.getUser({ id: id }, function (err, res) {
     if (err) {
-      console.log("Fail to send request");
+      console.log("Fail to send request: ", err);
     } else {
       console.log("🚀 ~ file: gRPC.js:25 ~ res:", res);
       return res;
