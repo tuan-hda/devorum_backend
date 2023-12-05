@@ -1,13 +1,12 @@
 const createHttpError = require('http-errors')
 const CommunityModel = require('../models/Community')
-const CommunityController = require('../models/Community')
 
 const createCommunityController = async (req, res, next) => {
   const user = req.user
   const data = {}
 
   for (const key in req.body) {
-    if (key in CommunityController.schema.paths) {
+    if (key in CommunityModel.schema.paths) {
       data[key] = req.body[key]
     }
   }
