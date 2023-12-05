@@ -11,6 +11,7 @@ const createCommunityController = async (req, res, next) => {
     }
   }
   data.createdBy = user._id
+  data.moderators = [user._id]
 
   try {
     const community = new CommunityModel(data)
