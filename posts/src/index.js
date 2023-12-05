@@ -87,7 +87,6 @@ connection.once("open", async () => {
 });
 
 app.use("/", postsRoute);
-getUserById("65601f418c702f4a28bc1e71");
 
 app.listen(config.PORT, () => {
   console.log(new Date(), "listening on port:", config.PORT);

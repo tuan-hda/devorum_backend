@@ -15,9 +15,9 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 const service = protoDescriptor.users.proto.Users.service;
 
-function getUser(call, callback) {
+async function getUser(call, callback) {
   const requestId = call.request.id;
-  const userInfo = getUserInfo(requestId);
+  const userInfo = await getUserInfo(requestId);
   callback(null, userInfo);
 }
 

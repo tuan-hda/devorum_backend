@@ -5,10 +5,7 @@ const getUserInfo = async (id) => {
 
     if (!user) return null;
 
-    return {
-      _id: user._id,
-      ...user,
-    };
+    return user;
   } catch (error) {
     console.log(error);
   }

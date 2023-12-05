@@ -14,16 +14,15 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 
 function getUserById(id) {
   var server = new protoDescriptor.users.proto.Users(
-    "localhost:50051",
+    "dns:///users:50051",
     grpc.credentials.createInsecure()
   );
-  console.log("🚀 ~ file: gRPC.js:20 ~ getUserById ~ server:", server);
-  server.getUser({ id: id }, function (err, res) {
+
+  server.getUser({ id: id }, function (err, response) {
     if (err) {
-      console.log("Fail to send request: ", err);
+      console.log("Fail to get user: ", err);
     } else {
-      console.log("🚀 ~ file: gRPC.js:25 ~ res:", res);
-      return res;
+      return response;
     }
   });
 }
