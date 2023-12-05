@@ -8,5 +8,9 @@ upload/node_modules
 upload/.env
 upload/uploads/*
 
+# community service
+community/node_modules
+community/.env
+
 .DS_Store
 db/
