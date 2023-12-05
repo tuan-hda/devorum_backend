@@ -32,6 +32,10 @@ const CommunitySchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    createdBy: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

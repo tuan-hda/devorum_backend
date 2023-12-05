@@ -3,6 +3,7 @@ const CommunityModel = require('../models/Community')
 const CommunityController = require('../models/Community')
 
 const createCommunityController = async (req, res, next) => {
+  const user = req.user
   const data = {}
 
   for (const key in req.body) {
@@ -10,6 +11,7 @@ const createCommunityController = async (req, res, next) => {
       data[key] = req.body[key]
     }
   }
+  data.createdBy = user._id
 
   try {
     const community = new CommunityModel(data)
