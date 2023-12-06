@@ -10,7 +10,7 @@ router.post('/', authenticateJWT, createCommunityController)
 router.get('/validity', authenticateJWT, checkValidityCommunityName)
 router.get('/test', async (req, res, next) => {
   try {
-    const data = await getUserProducer({ username: 'tuan-hda' })
+    const data = await getUserProducer({ username: 'tuan-hdxa' })
     res.status(200).json(data)
   } catch (error) {
     next(error)

@@ -41,7 +41,12 @@ const getUserProducer = async ({ username, authUser }) => {
         clearTimeout(timeout)
         if (msg.properties.correlationId === id) {
           console.log(msg.content.toString())
-          resolve(msg.content.toString())
+          const response = JSON.parse(msg.content.toString())
+          if (response.error) {
+            reject(response.error)
+          } else {
+            resolve(response.data)
+          }
         } else {
           reject(new Error('Data not found'))
         }
