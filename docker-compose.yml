@@ -35,6 +35,19 @@ services:
       - ./users:/app/users
       - ./protos:/app/protos
 
+  community:
+    build:
+      dockerfile: Dockerfile
+      context: community
+    container_name: community
+    ports:
+      - "8100:8100"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./community:/app/community
+
   upload:
     build:
       dockerfile: Dockerfile

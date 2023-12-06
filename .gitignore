@@ -1,6 +1,7 @@
 # user service
 users/node_modules
 users/.env
+users/coverage
 
 #post service
 posts/node_modules
@@ -9,6 +10,10 @@ posts/node_modules
 upload/node_modules
 upload/.env
 upload/uploads/*
+
+# community service
+community/node_modules
+community/.env
 
 .DS_Store
 db/

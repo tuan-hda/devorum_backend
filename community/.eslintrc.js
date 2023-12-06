@@ -3,7 +3,6 @@ module.exports = {
     node: true,
     commonjs: true,
     es2021: true,
-    'jest/globals': true,
   },
   extends: 'eslint:recommended',
   overrides: [
@@ -20,5 +19,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  rules: {},
+  rules: {
+    'no-unused-vars': 'warn',
+  },
 }
