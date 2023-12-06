@@ -5,6 +5,7 @@ users/coverage
 
 #post service
 posts/node_modules
+posts/.env
 
 # upload service
 upload/node_modules
