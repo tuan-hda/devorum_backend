@@ -3,11 +3,9 @@ const app = express()
 const cors = require('cors')
 const config = require('./configs/config.js')
 const mongoose = require('mongoose')
-const usersRoute = require('./routes/users.route.js')
+const communityRoute = require('./routes/community.route.js')
 const bodyParser = require('body-parser')
-const relationshipRoute = require('./routes/relationship.route.js')
 const { isHttpError } = require('http-errors')
-const initConsumer = require('./broker/initConsumer.js')
 
 // connect db
 mongoose.connect(config.DB_CONN_STR)
@@ -16,14 +14,12 @@ connection.once('open', () => {
   console.log(new Date(), 'database established successfully')
 })
 
-initConsumer()
-
 app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use('/relationship', relationshipRoute)
-app.use('/', usersRoute)
+app.use(communityRoute)
+
 app.use((err, req, res, next) => {
   if (isHttpError(err) && err.statusCode < 500) {
     return res.status(err.statusCode).json({
