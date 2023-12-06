@@ -1,8 +1,6 @@
 const dotenv = require('dotenv')
 
-dotenv.config({
-  path: '.env.dev',
-})
+dotenv.config()
 
 module.exports = {
   DB_CONN_STR: process.env.DB_CONN_STR || 'mongodb://localhost:27017/community',
@@ -10,6 +8,6 @@ module.exports = {
   JWT_SECRET: process.env.JWT_SECRET,
   whitelist: ['http://localhost:3000'],
   MSG_QUEUE_URL: process.env.MSG_QUEUE_URL || 'amqp://192.168.1.242',
-  EXCHANGE_NAME: process.env.EXCHANGE_NAME || 'devorum',
-  QUEUE_NAME: process.env.QUEUE_NAME || 'users',
+  RPC_QUEUE_NAME: process.env.RPC_QUEUE_NAME || 'rpc_community_queue',
+  REPLY_TO_QUEUE_NAME: process.env.REPLY_TO_QUEUE_NAME || 'community_queue',
 }
