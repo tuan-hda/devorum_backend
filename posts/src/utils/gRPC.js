@@ -12,16 +12,17 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 
-function getUserById(id) {
+async function getUserById(id) {
   var server = new protoDescriptor.users.proto.Users(
     "dns:///users:50051",
     grpc.credentials.createInsecure()
   );
 
-  server.getUser({ id: id }, function (err, response) {
+  await server.getUser({ id: id }, function (err, response) {
     if (err) {
       console.log("Fail to get user: ", err);
     } else {
+      console.log("🚀 ~ file: gRPC.js:26 ~ response:", response);
       return response;
     }
   });

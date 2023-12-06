@@ -14,7 +14,7 @@ const getAllPosts = async (req, res, next) => {
     // .populate("tag")
     // .exec();
     // res.status(200).json(allPosts.slice(startIndex, endIndex));
-    const user = await getUserById("656e96252d8e5d48d0c8cd7e");
+    const user = await getUserById("65601f418c702f4a28bc1e71");
     console.log(
       "🚀 ~ file: getAllPosts.controller.js:18 ~ getAllPosts ~ user:",
       user
