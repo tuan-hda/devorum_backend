@@ -10,15 +10,15 @@ const getProfileService = require('../../services/getProfileService')
  * @returns
  */
 const getProfile = async (req, res, next) => {
-  try {
-    const username = req.params.username
-    const authUser = req.user
+    try {
+        const username = req.params.username
+        const authUser = req.user
 
-    const user = await getProfileService({ username, authUser })
-    res.status(200).json(user)
-  } catch (error) {
-    next(error)
-  }
+        const users = await getProfileService({ username, authUser })
+        res.status(200).json(users[0])
+    } catch (error) {
+        next(error)
+    }
 }
 
 module.exports = getProfile
