@@ -31,12 +31,20 @@ const updateCommunityController = async (req, res, next) => {
 
         const data = {}
         for (const key in req.body) {
-            if (key in CommunityModel.schema.paths && !excludeUpdateFields.has(key)) {
+            if (
+                key in CommunityModel.schema.paths &&
+                !excludeUpdateFields.has(key)
+            ) {
                 data[key] = req.body[key]
             }
         }
-        if (Array.isArray(data.moderators) && !data.moderators.includes(user._id)) {
-            throw createHttpError[400]('Moderators must include the creator of the community')
+        if (
+            Array.isArray(data.moderators) &&
+            !data.moderators.includes(user.username)
+        ) {
+            throw createHttpError[400](
+                'Moderators must include the creator of the community'
+            )
         }
 
         community.set(data)

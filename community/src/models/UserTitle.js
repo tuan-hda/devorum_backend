@@ -1,5 +1,4 @@
 const createHttpError = require('http-errors')
-const { ObjectId } = require('mongodb')
 const mongoose = require('mongoose')
 
 const UserTitleSchema = new mongoose.Schema(
@@ -9,9 +8,8 @@ const UserTitleSchema = new mongoose.Schema(
             required: true,
         },
         communityId: {
-            type: ObjectId,
+            type: String,
             required: true,
-            ref: 'community',
         },
         description: String,
         backgroundColor: String,
@@ -25,6 +23,7 @@ UserTitleSchema.pre('save', async function (next) {
     const userTitle = this
 
     const exist = await mongoose.models['userTitle'].findOne({
+        communityId: userTitle.communityId,
         name: userTitle.name,
     })
     if (exist) {
