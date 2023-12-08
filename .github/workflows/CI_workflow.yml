@@ -23,5 +23,5 @@ jobs:
     - name: Test User Service
       working-directory: './users'
       run: |
-        yarn install --frozen-lockfile
+        yarn
         yarn test
