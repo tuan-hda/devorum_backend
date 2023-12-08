@@ -12,7 +12,7 @@ const listUserTitlesController = async (req, res, next) => {
 
         const userTitles = await UserTitleModel.find({
             communityId: community._id,
-        })
+        }).sort({ createdAt: 1 })
 
         return res.status(200).json(userTitles)
     } catch (error) {

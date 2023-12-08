@@ -7,14 +7,7 @@ const CommunitySchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        numMembers: {
-            type: String,
-            default: 0,
-        },
-        numPosts: {
-            type: String,
-            default: 0,
-        },
+
         title: {
             type: String,
         },
