@@ -1,5 +1,7 @@
 const createHttpError = require('http-errors')
 const CommunityModel = require('../models/Community')
+const checkCommunityExist = require('../services/checkCommunityExist')
+const checkCommunityOwner = require('../services/checkCommunityOwner')
 
 const excludeUpdateFields = new Set([
     '_id',
@@ -10,6 +12,7 @@ const excludeUpdateFields = new Set([
     'numMembers',
     'numPosts',
     'name',
+    'moderators',
 ])
 
 const updateCommunityController = async (req, res, next) => {
@@ -17,17 +20,8 @@ const updateCommunityController = async (req, res, next) => {
         const user = req.user
         const name = req.params.name
 
-        let community = await CommunityModel.findOne({ name })
-        if (!community) {
-            throw createHttpError[404]('Community not found')
-        }
-
-        if (!user) {
-            throw createHttpError[401]('Unauthorized')
-        }
-        if (user._id != community.createdBy) {
-            throw createHttpError[403]('Forbidden')
-        }
+        let community = await checkCommunityExist(name)
+        checkCommunityOwner(community, user)
 
         const data = {}
         for (const key in req.body) {
