@@ -10,7 +10,15 @@ const newUserTitleValidator = require('../validators/newUserTitle.validator')
 const listUserTitlesController = require('../controllers/listUserTitles.controller')
 const joinCommunityController = require('../controllers/joinCommunity.controller')
 const leaveCommunityController = require('../controllers/leaveCommunity.controller')
+const updateUserTitleController = require('../controllers/updateUserTitle.controller')
+const deleteUserTitleController = require('../controllers/deleteUserTitle.controller')
+const getCommunityMembersController = require('../controllers/getCommunityMembers.controller')
+const updateJoinedCommunityController = require('../controllers/updateJoinedCommunity.controller')
+const selfUpdateCommunityStatusController = require('../controllers/selfAssignUserTitle.controller')
+const addModController = require('../controllers/addMod.controller')
+const deleteModController = require('../controllers/deleteMod.controller')
 
+// Community
 router.post('/', authenticateJWT, createCommunityController)
 router.get('/validity', authenticateJWT, checkValidityCommunityName)
 router.get(
@@ -20,9 +28,26 @@ router.get(
 )
 router.put('/:name', authenticateJWT, updateCommunityController)
 
+// Members
+router.get(
+    '/:name/members',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    getCommunityMembersController
+)
 router.post('/:name/members', authenticateJWT, joinCommunityController)
 router.delete('/:name/members', authenticateJWT, leaveCommunityController)
+router.put(
+    '/:name/members/self-update',
+    authenticateJWT,
+    selfUpdateCommunityStatusController
+)
+router.put(
+    '/:name/members/:username',
+    authenticateJWT,
+    updateJoinedCommunityController
+)
 
+// User titles
 router.post(
     '/:name/user-titles',
     authenticateJWT,
@@ -30,5 +55,15 @@ router.post(
     createUserTitleController
 )
 router.get('/:name/user-titles', listUserTitlesController)
+router.put('/:name/user-titles/:id', authenticateJWT, updateUserTitleController)
+router.delete(
+    '/:name/user-titles/:id',
+    authenticateJWT,
+    deleteUserTitleController
+)
+
+// Mods
+router.post('/:name/mods', authenticateJWT, addModController)
+router.delete('/:name/mods/:username', authenticateJWT, deleteModController)
 
 module.exports = router

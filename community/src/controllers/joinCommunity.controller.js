@@ -12,7 +12,7 @@ const joinCommunityController = async (req, res, next) => {
         }
 
         const isMember = await JoinedCommunityModel.findOne({
-            userId: user._id,
+            username: user.username,
             communityId: community._id,
         })
 
@@ -21,7 +21,7 @@ const joinCommunityController = async (req, res, next) => {
         }
 
         const newMember = new JoinedCommunityModel({
-            userId: user._id,
+            username: user.username,
             communityId: community._id,
         })
         await newMember.save()

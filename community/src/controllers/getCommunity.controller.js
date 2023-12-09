@@ -2,6 +2,7 @@ const createHttpError = require('http-errors')
 const CommunityModel = require('../models/Community')
 const JoinedCommunityModel = require('../models/JoinedCommunity')
 const { getUserProducer } = require('../broker/userProducer')
+const UserTitleModel = require('../models/UserTitle')
 
 const getCommunityController = async (req, res, next) => {
     const name = req.params.name
@@ -15,15 +16,21 @@ const getCommunityController = async (req, res, next) => {
         community = community.toObject()
         if (user) {
             const joinedStatus = await JoinedCommunityModel.findOne({
-                userId: user._id,
+                username: user.username,
                 communityId: community._id,
             })
-            community.joinedStatus = joinedStatus
+            community.joinedStatus = joinedStatus.toObject()
         }
 
         community.numMembers = await JoinedCommunityModel.countDocuments({
             communityId: community._id,
         })
+
+        if (community.joinedStatus?.title) {
+            community.joinedStatus.title = await UserTitleModel.findById(
+                community.joinedStatus.title
+            )
+        }
 
         // Moderators information
         const mods = await getUserProducer({ username: community.moderators })
