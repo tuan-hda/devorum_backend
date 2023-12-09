@@ -1,5 +1,5 @@
+const { getUserProducer } = require("../../broker/userProducer");
 const PostModel = require("../../models/Post");
-const getUserById = require("../../utils/gRPC");
 
 const getAllPosts = async (req, res, next) => {
   try {
@@ -14,12 +14,8 @@ const getAllPosts = async (req, res, next) => {
     // .populate("tag")
     // .exec();
     // res.status(200).json(allPosts.slice(startIndex, endIndex));
-    const user = await getUserById("65601f418c702f4a28bc1e71");
-    console.log(
-      "🚀 ~ file: getAllPosts.controller.js:18 ~ getAllPosts ~ user:",
-      user
-    );
-    res.status(200).json(user);
+    const data = await getUserProducer({ username: "tuan-hdxa" });
+    res.status(200).json(data);
   } catch (error) {
     next(error);
   }

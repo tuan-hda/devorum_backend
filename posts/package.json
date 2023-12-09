@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "mongodb": "^6.2.0",
-    "mongoose": "^8.0.0"
+    "mongoose": "^8.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/http-errors": "^2.0.4",

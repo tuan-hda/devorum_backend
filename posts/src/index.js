@@ -4,7 +4,6 @@ const config = require("./configs/config");
 const mongoose = require("mongoose");
 const postsRoute = require("./routes/posts.route");
 const PostModel = require("./models/Post");
-const initConsumer = require("./broker/initConsumer");
 
 // connect db
 mongoose.connect(config.DB_CONN_STR);
@@ -86,7 +85,6 @@ connection.once("open", async () => {
   ]).then(() => console.log(new Date(), "database established successfully"));
 });
 
-initConsumer();
 app.use("/", postsRoute);
 
 app.listen(config.PORT, () => {

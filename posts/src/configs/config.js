@@ -14,6 +14,6 @@ module.exports = {
   JWT_SECRET: process.env.JWT_SECRET,
   whitelist: ["http://localhost:3000"],
   MSG_QUEUE_URL: process.env.MSG_QUEUE_URL || "amqp://192.168.1.242",
-  EXCHANGE_NAME: process.env.EXCHANGE_NAME || "devorum",
-  QUEUE_NAME: process.env.QUEUE_NAME || "posts",
+  RPC_QUEUE_NAME: 'rpc_posts_queue',
+  REPLY_TO_QUEUE_NAME: 'posts_queue',
 };
