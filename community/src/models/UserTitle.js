@@ -22,6 +22,8 @@ const UserTitleSchema = new mongoose.Schema(
 UserTitleSchema.pre('save', async function (next) {
     const userTitle = this
 
+    if (!userTitle.isModified('name')) return next()
+
     const exist = await mongoose.models['userTitle'].findOne({
         communityId: userTitle.communityId,
         name: userTitle.name,

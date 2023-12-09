@@ -6,6 +6,7 @@ const schema = Joi.object({
     backgroundColor: Joi.string().required(),
     textColor: Joi.string().required(),
     description: Joi.string().allow(null, ''),
+    _id: Joi.string().allow(null, ''),
 })
 
 const newUserTitleValidator = async (req, res, next) => {

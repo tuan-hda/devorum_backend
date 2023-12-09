@@ -12,7 +12,7 @@ const leaveCommunityController = async (req, res, next) => {
         }
 
         const isMember = await JoinedCommunityModel.findOne({
-            userId: user._id,
+            username: user.username,
             communityId: community._id,
         })
 
@@ -21,7 +21,7 @@ const leaveCommunityController = async (req, res, next) => {
         }
 
         await JoinedCommunityModel.deleteOne({
-            userId: user._id,
+            username: user.username,
             communityId: community._id,
         })
 
