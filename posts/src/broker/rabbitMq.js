@@ -1,16 +1,16 @@
-const amqplib = require('amqplib')
-const config = require('../configs/config')
+const amqplib = require("amqplib");
+const config = require("../configs/config");
 
-let connection = null
+let connection = null;
 
 const connectRabbitMQ = async () => {
   try {
-    connection = await amqplib.connect(config.MSG_QUEUE_URL)
-    console.log('Created rabbitMQ connection successfully')
+    connection = await amqplib.connect(config.MSG_QUEUE_URL);
+    console.log("Created rabbitMQ connection successfully");
   } catch (error) {
-    console.log('Create RabbitMQ connection failed:', error)
+    console.log("Create RabbitMQ connection failed:", error);
   }
-}
+};
 
 /**
  *
@@ -18,11 +18,11 @@ const connectRabbitMQ = async () => {
  */
 const getChannel = async () => {
   if (connection === null) {
-    await connectRabbitMQ()
+    await connectRabbitMQ();
   }
-  return await connection.createChannel()
-}
+  return await connection.createChannel();
+};
 
 module.exports = {
   getChannel,
-}
+};
