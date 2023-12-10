@@ -40,8 +40,18 @@ const getProfileService = async ({ username, id, authUser }) => {
                     ],
                 },
             },
-            { $unwind: { preserveNullAndEmptyArrays: true, path: '$followStatus' } },
-            { $unwind: { preserveNullAndEmptyArrays: true, path: '$blockStatus' } }
+            {
+                $unwind: {
+                    preserveNullAndEmptyArrays: true,
+                    path: '$followStatus',
+                },
+            },
+            {
+                $unwind: {
+                    preserveNullAndEmptyArrays: true,
+                    path: '$blockStatus',
+                },
+            }
         )
     }
 

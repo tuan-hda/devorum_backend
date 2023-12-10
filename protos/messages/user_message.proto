@@ -1,0 +1,26 @@
+syntax = 'proto3';
+
+package user ;
+
+message UserResponse {
+string id = 1          ;
+string username = 2    ;
+string email = 3       ;
+string password = 4    ;
+string fullName = 5    ;
+string avatar = 6      ;
+string banner = 7      ;
+string about = 8       ;
+string role = 9        ;
+int32 points = 10      ;
+string website = 11    ;
+string github = 12     ;
+string x = 13          ;
+string work = 14       ;
+string education = 15  ;
+string position = 16   ;
+}
+
+message UserRequest {
+string id = 1         ;
+}
