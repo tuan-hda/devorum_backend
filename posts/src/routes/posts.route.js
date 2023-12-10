@@ -3,7 +3,7 @@ const router = express.Router();
 const getAllPosts = require("../controllers/posts/getAllPosts.controller");
 const { getUserProducer } = require("../broker/userProducer");
 
-router.get("/posts", getAllPosts);
+router.get("/", getAllPosts);
 router.get("/test", async (req, res, next) => {
   try {
     const data = await getUserProducer({ username: ["Tu"] });
