@@ -2,9 +2,9 @@ const createHttpError = require('http-errors')
 const { ObjectId } = require('mongodb')
 const UserModel = require('../models/User')
 
-const getProfileService = async ({ username, authUser }) => {
-    if (!username) {
-        throw createHttpError[400]('Missing username')
+const getProfileService = async ({ username, id, authUser }) => {
+    if (!username && !id) {
+        throw createHttpError[400]('Must contain username or id')
     }
 
     const lookup = []
@@ -40,18 +40,41 @@ const getProfileService = async ({ username, authUser }) => {
                     ],
                 },
             },
-            { $unwind: { preserveNullAndEmptyArrays: true, path: '$followStatus' } },
-            { $unwind: { preserveNullAndEmptyArrays: true, path: '$blockStatus' } }
+            {
+                $unwind: {
+                    preserveNullAndEmptyArrays: true,
+                    path: '$followStatus',
+                },
+            },
+            {
+                $unwind: {
+                    preserveNullAndEmptyArrays: true,
+                    path: '$blockStatus',
+                },
+            }
         )
     }
 
     const usernames = typeof username === 'string' ? [username] : username
+    const ids = typeof id === 'string' ? [id] : id
+
+    const exprOrConditions = []
+    if (usernames) {
+        exprOrConditions.push({
+            $in: ['$username', usernames],
+        })
+    }
+    if (ids) {
+        exprOrConditions.push({
+            $in: ['$_id', ids.map((id) => new ObjectId(id))],
+        })
+    }
 
     const users = await UserModel.aggregate([
         {
             $match: {
                 $expr: {
-                    $in: ['$username', usernames],
+                    $or: exprOrConditions,
                 },
             },
         },
