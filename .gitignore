@@ -16,5 +16,9 @@ upload/uploads/*
 community/node_modules
 community/.env
 
+# chat service
+chat/node_modules
+chat/.env
+
 .DS_Store
 db/

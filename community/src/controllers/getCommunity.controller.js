@@ -19,7 +19,10 @@ const getCommunityController = async (req, res, next) => {
                 username: user.username,
                 communityId: community._id,
             })
-            community.joinedStatus = joinedStatus.toObject()
+            if (joinedStatus) {
+
+                community.joinedStatus = joinedStatus.toObject()
+            }
         }
 
         community.numMembers = await JoinedCommunityModel.countDocuments({

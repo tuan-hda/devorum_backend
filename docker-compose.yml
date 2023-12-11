@@ -17,6 +17,8 @@ services:
       - users
       - upload
       - posts
+      - community
+      - chat
     ports:
       - "80:80"
 
@@ -31,6 +33,7 @@ services:
     restart: always
     depends_on:
       - "nosql-db"
+      - "rabbitmq"
     volumes:
       - ./users:/app/users
       - ./protos:/app/protos
@@ -45,6 +48,7 @@ services:
     restart: always
     depends_on:
       - "nosql-db"
+      - "rabbitmq"
     volumes:
       - ./community:/app/community
 
@@ -69,9 +73,32 @@ services:
     restart: always
     depends_on:
       - "nosql-db"
+      - "rabbitmq"
     volumes:
       - ./posts:/app/posts
       - ./protos:/app/protos
 
-volumes:
-  protos:
+  chat:
+    build:
+      dockerfile: Dockerfile
+      context: chat
+    container_name: chat
+    ports:
+      - "8101:8101"
+    restart: always
+    depends_on:
+      - "rabbitmq"
+      - "nosql-db"
+    volumes:
+      - ./chat:/app/chat
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5673:5672
+      - 15673:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+

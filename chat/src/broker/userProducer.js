@@ -31,20 +31,20 @@ const getUserProducer = async ({ username, id: userId, authUser }) => {
     })
 
     return new Promise((resolve, reject) => {
-        console.log('send message')
         const timeout = setTimeout(() => {
             channel.close()
             resolve('API could not fullfil the request!')
         }, 8000)
 
+        console.log('Waiting for response')
         channel.consume(
             config.REPLY_TO_QUEUE_NAME,
             (msg) => {
                 clearTimeout(timeout)
-                console.log('message response', msg.content.toString())
                 if (msg.properties.correlationId === id) {
                     console.log(msg.content.toString())
                     const response = JSON.parse(msg.content.toString())
+                    console.log('response', response)
                     if (response.error) {
                         reject(response.error)
                     } else {
