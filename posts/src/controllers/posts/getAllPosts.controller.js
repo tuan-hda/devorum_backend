@@ -10,10 +10,20 @@ const getAllPosts = async (req, res, next) => {
     const endIndex = page * limit;
 
     const allPosts = await PostModel.find();
-    // .populate("user");
-    // .populate("tag")
-    // .exec();
-    res.status(200).json(allPosts.slice(startIndex, endIndex));
+
+    const result = await allPosts.map(async (post) => {
+      const user = await getUserProducer({ id: [post.user.id] });
+      return {
+        ...post,
+        user,
+      };
+    });
+    console.log(
+      "🚀 ~ file: getAllPosts.controller.js:21 ~ result ~ result:",
+      result
+    );
+
+    res.status(200).json(result.slice(startIndex, endIndex));
     // const data = await getUserProducer({ username: "tuan-hdxa" });
     // res.status(200).json(data);
   } catch (error) {

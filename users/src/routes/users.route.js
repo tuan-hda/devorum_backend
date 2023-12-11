@@ -1,5 +1,8 @@
 const express = require('express')
-const { validateNewUser, validateLogin } = require('../validators/user.validator')
+const {
+    validateNewUser,
+    validateLogin,
+} = require('../validators/user.validator')
 const registerUser = require('../controllers/users/registerUser.controller')
 const login = require('../controllers/users/login.controller')
 const { authenticateJWT } = require('../middlewares/auth.middleware')
