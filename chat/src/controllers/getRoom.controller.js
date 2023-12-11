@@ -2,7 +2,7 @@ const RoomModel = require('../models/Room')
 
 const getRoomController = async (req, res, next) => {
     try {
-        const username = req.body.username
+        const username = req.params.username
         const user = req.user
 
         let room = await RoomModel.findOne({
@@ -10,9 +10,7 @@ const getRoomController = async (req, res, next) => {
         })
 
         if (room) {
-            return res.status(400).json({
-                error: 'Room already exists',
-            })
+            return res.status(200).json(room)
         }
 
         room = await RoomModel.create({

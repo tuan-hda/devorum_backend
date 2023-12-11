@@ -20,11 +20,7 @@ module.exports = (socketIO, socket) => {
     socket.on('message', async (data) => {
         console.log('sending message to room', data.room)
         try {
-            const message = await MessageModel.create({
-                room: data.room,
-                from: data.from,
-                body: data.body,
-            })
+            const message = await MessageModel.create(data)
             socketIO.to(data.room).emit('messageResponse', message)
         } catch (error) {
             console.log('error sending message to room', error)

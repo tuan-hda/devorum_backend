@@ -3,8 +3,8 @@ const { authenticateJWT } = require('../middlewares/auth.middleware.js')
 
 const router = express.Router()
 
-router.post(
-    '/rooms',
+router.get(
+    '/rooms/:username',
     authenticateJWT,
     require('../controllers/getRoom.controller.js')
 )
