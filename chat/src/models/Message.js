@@ -22,10 +22,6 @@ const MessageSchema = new mongoose.Schema(
             ref: 'room',
             required: true,
         },
-        createdBy: {
-            type: String,
-            required: true,
-        },
         language: {
             type: String,
             required: false,

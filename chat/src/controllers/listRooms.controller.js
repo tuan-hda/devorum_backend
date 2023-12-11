@@ -8,7 +8,7 @@ const listRoomsController = async (req, res, next) => {
             participants: { $in: [user.username] },
         })
             .populate('lastMessage')
-            .sort({ 'lastMessage.createdAt': -1 })
+            .sort({ updatedAt: -1 })
 
         return res.status(200).json(rooms)
     } catch (error) {
