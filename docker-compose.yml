@@ -17,6 +17,8 @@ services:
       - users
       - upload
       - posts
+      - community
+      - chat
     ports:
       - "80:80"
 
@@ -72,6 +74,19 @@ services:
     volumes:
       - ./posts:/app/posts
       - ./protos:/app/protos
+
+  chat:
+    build:
+      dockerfile: Dockerfile
+      context: chat
+    container_name: chat
+    ports:
+      - "8101:8101"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./chat:/app/chat
 
 volumes:
   protos:
