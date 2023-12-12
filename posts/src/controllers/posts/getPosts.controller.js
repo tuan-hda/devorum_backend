@@ -12,7 +12,6 @@ const getPosts = async (req, res, next) => {
 
     const ids = data.docs.map((post) => post.user);
     const users = await getUserProducer({ id: ids });
-    // const total = allPosts.length;
 
     const posts = data.docs.map((post) => ({
       ...post.toObject(),
