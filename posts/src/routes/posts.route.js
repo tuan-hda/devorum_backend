@@ -1,16 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const getAllPosts = require("../controllers/posts/getAllPosts.controller");
-const { getUserProducer } = require("../broker/userProducer");
+const getPosts = require("../controllers/posts/getPosts.controller");
 
-router.get("/posts", getAllPosts);
-router.get("/test", async (req, res, next) => {
-  try {
-    const data = await getUserProducer({ username: ["Tu"] });
-    res.status(200).json(data[0]);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/", getPosts);
 
 module.exports = router;
