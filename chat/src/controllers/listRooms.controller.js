@@ -9,7 +9,7 @@ const listRoomsController = async (req, res, next) => {
             participants: { $in: [user.username] },
         })
             .populate('lastMessage')
-            .sort({ updatedAt: -1 })
+            .sort({ lastMessageAt: -1 })
 
         console.log('RPC participants info')
         const participantsInfo = await getUserProducer({

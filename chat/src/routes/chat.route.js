@@ -21,4 +21,10 @@ router.get(
     require('../controllers/listRoomMessage.controller.js')
 )
 
+// router.post(
+//     '/rooms/:id/messages/:messageId/like',
+//     authenticateJWT,
+//     require('../controllers/likeMessage.controller.js')
+// )
+
 module.exports = router

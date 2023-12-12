@@ -10,6 +10,10 @@ const RoomSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'message',
         },
+        lastMessageAt: {
+            type: Date,
+            default: Date.now,
+        },
     },
     {
         timestamps: true,

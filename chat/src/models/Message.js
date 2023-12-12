@@ -14,10 +14,14 @@ const MessageSchema = new mongoose.Schema(
             type: [String],
             default: [],
         },
+        seen: {
+            type: [String],
+            default: [],
+        },
         replyTo: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'message',
-            required: true,
+            required: false,
         },
         room: {
             type: mongoose.Schema.Types.ObjectId,
