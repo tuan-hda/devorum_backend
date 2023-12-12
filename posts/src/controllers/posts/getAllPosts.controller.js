@@ -9,18 +9,17 @@ const getAllPosts = async (req, res, next) => {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const allPosts = await PostModel.find();
+    const posts = await PostModel.find();
 
-    const result = await allPosts.map(async (post) => {
-      const user = await getUserProducer({ id: [post.user.id] });
-      return {
-        ...post,
-        user,
-      };
-    });
+    const ids = posts.map((post) => post.user);
+    const users = await getUserProducer({ id: ids });
+    const result = posts.map((post, index) => ({
+      // ...JSON.parse(post),
+      user: users[index],
+    }));
     console.log(
-      "🚀 ~ file: getAllPosts.controller.js:21 ~ result ~ result:",
-      result
+      "🚀 ~ file: getAllPosts.controller.js:19 ~ result ~ users:",
+      users
     );
 
     res.status(200).json(result.slice(startIndex, endIndex));
