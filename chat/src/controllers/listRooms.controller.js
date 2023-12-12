@@ -11,6 +11,9 @@ const listRoomsController = async (req, res, next) => {
             .populate('lastMessage')
             .sort({ lastMessageAt: -1 })
 
+        if (rooms.length === 0) {
+            return res.status(200).json([])
+        }
         console.log('RPC participants info')
         const participantsInfo = await getUserProducer({
             username: rooms.map((room) => room.participants).flat(),
