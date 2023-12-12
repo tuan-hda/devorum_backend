@@ -8,22 +8,24 @@ const MessageSchema = new mongoose.Schema(
         },
         body: {
             type: String,
-            required: true,
+            required: false,
         },
         likes: {
             type: [String],
             default: [],
         },
+        seen: {
+            type: [String],
+            default: [],
+        },
         replyTo: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'message',
+            required: false,
         },
         room: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'room',
-            required: true,
-        },
-        createdBy: {
-            type: String,
             required: true,
         },
         language: {

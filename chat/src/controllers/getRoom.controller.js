@@ -9,15 +9,15 @@ const getRoomController = async (req, res, next) => {
             participants: { $all: [username, user.username] },
         })
 
-        if (!room) {
-            room = await RoomModel.create({
-                participants: [username, user.username],
-            })
+        if (room) {
+            return res.status(200).json(room)
         }
 
-        return res.status(200).json({
-            room,
+        room = await RoomModel.create({
+            participants: [username, user.username],
         })
+
+        return res.status(200).json(room)
     } catch (error) {
         next(error)
     }
