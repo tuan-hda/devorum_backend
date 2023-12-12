@@ -55,6 +55,6 @@ const PostSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-PostModel.plugin(mongoosePaginate);
+PostSchema.plugin(mongoosePaginate);
 const PostModel = mongoose.model("post", PostSchema);
 module.exports = PostModel;
