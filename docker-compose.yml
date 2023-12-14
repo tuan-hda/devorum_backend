@@ -1,5 +1,12 @@
 version: "3"
 
+x-logging:
+  &default-logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
+
 services:
   nosql-db:
     image: mongo:7.0-rc
@@ -19,6 +26,7 @@ services:
       - posts
       - community
       - chat
+      - server
     ports:
       - "80:80"
 
@@ -88,4 +96,59 @@ services:
     volumes:
       - ./chat:/app/chat
 
+  # judge0
+  server:
+    platform: linux/amd64
+    container_name: compiler
+    image: judge0/judge0:1.13.0
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    ports:
+      - "2358:2358"
+      - "2345:22"
+    privileged: true
+    <<: *default-logging
+    restart: always
+    # command: bash -c "apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd && echo 'root:123456' | chpasswd && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && /usr/sbin/sshd -D"
+    depends_on:
+      - "redis"
+      - "db"
+
+  workers:
+    platform: linux/amd64
+    image: judge0/judge0:1.13.0
+    container_name: judge0-workers
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    privileged: true
+    <<: *default-logging
+    restart: always
+    depends_on:
+      - "redis"
+      - "db"
+
+  db:
+    image: postgres:13.0
+    env_file: judge0.conf
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+    <<: *default-logging
+    restart: always
+
+  redis:
+    image: redis:6.0
+    command: [
+      "bash", "-c",
+      'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"'
+    ]
+    env_file: judge0.conf
+    volumes:
+      - redis-data:/data
+    <<: *default-logging
+    restart: always
+
+volumes:
+  postgres-data:
+  redis-data:
 
