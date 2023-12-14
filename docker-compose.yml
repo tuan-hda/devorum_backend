@@ -100,23 +100,21 @@ services:
   server:
     platform: linux/amd64
     container_name: compiler
-    image: judge0/judge0:1.13.0
+    image: tuanhda/devorum-compiler
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     ports:
       - "2358:2358"
-      - "2345:22"
     privileged: true
     <<: *default-logging
     restart: always
-    # command: bash -c "apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd && echo 'root:123456' | chpasswd && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && /usr/sbin/sshd -D"
     depends_on:
       - "redis"
       - "db"
 
   workers:
     platform: linux/amd64
-    image: judge0/judge0:1.13.0
+    image: tuanhda/devorum-compiler
     container_name: judge0-workers
     command: ["./scripts/workers"]
     volumes:
