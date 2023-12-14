@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const config = require("./configs/config");
 const mongoose = require("mongoose");
-const postsRoute = require("./routes/posts.route");
 const PostModel = require("./models/Post");
+const bodyParser = require("body-parser");
 
 // connect db
 mongoose.connect(config.DB_CONN_STR);
@@ -87,8 +87,10 @@ connection.once("open", async () => {
     }),
   ]).then(() => console.log(new Date(), "database established successfully"));
 });
-
-app.use("/", postsRoute);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use("/", require("./routes/posts.route"));
+app.use("/tags", require("./routes/tags.route"));
 
 app.listen(config.PORT, () => {
   console.log(new Date(), "listening on port:", config.PORT);

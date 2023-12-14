@@ -22,7 +22,7 @@ const getPosts = async (req, res, next) => {
       totalItems: data.totalDocs,
       posts: posts,
       totalPages: data.totalPages,
-      currentPage: data.page - 1,
+      currentPage: data.page,
     };
 
     res.status(200).json(result);
@@ -33,7 +33,7 @@ const getPosts = async (req, res, next) => {
 
 const getPagination = (page, size) => {
   const limit = size ? +size : 10;
-  const offset = page ? page * limit : 0;
+  const offset = page ? (page - 1) * limit : 0;
 
   return { limit, offset };
 };
