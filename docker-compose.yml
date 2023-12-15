@@ -27,6 +27,7 @@ services:
       - community
       - chat
       - server
+      - live
     ports:
       - "80:80"
 
@@ -95,6 +96,19 @@ services:
       - "nosql-db"
     volumes:
       - ./chat:/app/chat
+
+  live:
+    build:
+      dockerfile: Dockerfile
+      context: live
+    container_name: live
+    ports:
+      - "8102:8102"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./live:/app/live
 
   # judge0
   server:
