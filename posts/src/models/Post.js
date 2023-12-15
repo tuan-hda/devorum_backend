@@ -14,8 +14,8 @@ const PostSchema = new mongoose.Schema(
     views: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
+          type: String,
+          unique: true,
         },
       ],
       default: [],
@@ -24,7 +24,7 @@ const PostSchema = new mongoose.Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
+          ref: "comment",
         },
       ],
       default: [],
@@ -32,15 +32,14 @@ const PostSchema = new mongoose.Schema(
     votes: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
+          type: String,
+          unique: true,
         },
       ],
       default: [],
     },
     user: {
       type: String,
-      ref: "user",
       required: true,
     },
     tags: {

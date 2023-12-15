@@ -10,4 +10,10 @@ router.post(
   require("../controllers/posts/createPost.controller")
 );
 
+router.post(
+  "/update",
+  authenticateJWT,
+  require("../controllers/posts/updatePost.controller")
+);
+
 module.exports = router;
