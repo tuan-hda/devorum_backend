@@ -7,6 +7,15 @@ const liveRoute = require('./routes/live.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
 
+process
+    .on('unhandledRejection', (reason, p) => {
+        console.error(reason, 'Unhandled Rejection at Promise', p)
+    })
+    .on('uncaughtException', (err) => {
+        console.error(err, 'Uncaught Exception thrown')
+        process.exit(1)
+    })
+
 // connect db
 mongoose.connect(config.DB_CONN_STR)
 const connection = mongoose.connection
