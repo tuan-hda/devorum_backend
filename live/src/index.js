@@ -6,6 +6,10 @@ const mongoose = require('mongoose')
 const liveRoute = require('./routes/live.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
+const WebSocket = require('ws')
+const { heartbeat } = require('./websocket/util.js')
+const wss = new WebSocket.Server({ noServer: true })
+const setupWSConnection = require('./websocket/util.js').setupWSConnection
 
 process
     .on('unhandledRejection', (reason, p) => {
@@ -48,6 +52,22 @@ app.use((err, req, res, next) => {
     })
 })
 
-app.listen(config.PORT, () => {
+const server = app.listen(config.PORT, () => {
     console.log(new Date(), 'listening on port:', config.PORT)
+})
+
+wss.on('connection', function connection(ws, req, data) {
+    setupWSConnection(ws, req, data)
+})
+
+setInterval(() => {
+    console.log(`Setting the interval ${wss.clients.length}`)
+    console.log('wss-client:', wss.clients.size)
+}, 30000)
+
+server.on('upgrade', (request, socket, head) => {
+    const handleAuth = (ws) => {
+        wss.emit('connection', ws, request)
+    }
+    wss.handleUpgrade(request, socket, head, handleAuth)
 })

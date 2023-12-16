@@ -25,7 +25,10 @@
     "mongodb": "^6.2.0",
     "mongodb-memory-server": "^9.1.1",
     "mongoose": "^8.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "ws": "^8.15.1",
+    "y-websocket": "^1.5.1",
+    "yjs": "^13.6.10"
   },
   "devDependencies": {
     "@types/http-errors": "^2.0.4",
