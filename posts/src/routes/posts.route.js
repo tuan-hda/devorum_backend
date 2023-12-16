@@ -10,10 +10,20 @@ router.post(
   require("../controllers/posts/createPost.controller")
 );
 
-router.post(
+router.put(
   "/update",
   authenticateJWT,
   require("../controllers/posts/updatePost.controller")
+);
+router.put(
+  "/toggle-vote",
+  authenticateJWT,
+  require("../controllers/posts/toggleVote.controller")
+);
+router.put(
+  "/toggle-view",
+  authenticateJWT,
+  require("../controllers/posts/toggleView.controller")
 );
 
 module.exports = router;
