@@ -8,7 +8,11 @@ const getPosts = async (req, res, next) => {
 
     const condition = {};
     // Posts and users
-    const data = await PostModel.paginate(condition, { offset, limit });
+    const data = await PostModel.paginate(condition, {
+      offset,
+      limit,
+      populate: ["tags", "comments"],
+    });
 
     const ids = data.docs.map((post) => post.user);
     const users = await getUserProducer({ id: ids });
@@ -16,6 +20,7 @@ const getPosts = async (req, res, next) => {
     const posts = data.docs.map((post) => ({
       ...post.toObject(),
       user: users.find((user) => user._id === post.user),
+      tags: post.toObject().tags.filter((tag) => !tag.deleted),
     }));
 
     const result = {

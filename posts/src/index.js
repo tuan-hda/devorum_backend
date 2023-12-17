@@ -3,6 +3,7 @@ const app = express();
 const config = require("./configs/config");
 const mongoose = require("mongoose");
 const PostModel = require("./models/Post");
+const CommentModel = require("./models/Comment");
 const bodyParser = require("body-parser");
 
 // connect db
