@@ -63,10 +63,7 @@ const server = app.listen(config.PORT, () => {
 wss.on('connection', function connection(ws, req, data) {
     setupWSConnection(ws, req, data)
     console.log('Connect')
-    ws.addEventListener('close', function (event) {
-        console.log('disconnected')
-    })
-    setupSocket(wss, ws)
+    setupSocket(wss, ws, req, data)
 })
 
 server.on('upgrade', (request, socket, head) => {

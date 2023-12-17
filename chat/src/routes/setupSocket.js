@@ -2,7 +2,7 @@ const { default: mongoose } = require('mongoose')
 const MessageModel = require('../models/Message')
 const RoomModel = require('../models/Room')
 
-let chatDevs = {}
+let joinDevs = {}
 
 module.exports = (socketIO, socket) => {
     socket.on('message', (data) => {
@@ -25,9 +25,9 @@ module.exports = (socketIO, socket) => {
         console.log('joining room dev', data)
 
         socket.join(data.room)
-        chatDevs[data.room] = { ...chatDevs[data.room] }
-        chatDevs[data.room][socket.id] = data
-        socketIO.emit('joinRoomDevResponse', chatDevs)
+        joinDevs[data.room] = { ...joinDevs[data.room] }
+        joinDevs[data.room][socket.id] = data
+        socketIO.emit('joinRoomDevResponse', joinDevs)
     })
 
     socket.on('message', async (data) => {
@@ -151,11 +151,11 @@ module.exports = (socketIO, socket) => {
     })
 
     socket.on('disconnect', () => {
-        Object.keys(chatDevs).forEach((room) => {
-            if (chatDevs[room][socket.id]) {
-                delete chatDevs[room][socket.id]
-                console.log('deleted,', chatDevs[room])
-                socketIO.emit('joinRoomDevResponse', chatDevs)
+        Object.keys(joinDevs).forEach((room) => {
+            if (joinDevs[room][socket.id]) {
+                delete joinDevs[room][socket.id]
+                console.log('deleted,', joinDevs[room])
+                socketIO.emit('joinRoomDevResponse', joinDevs)
             }
         })
 
