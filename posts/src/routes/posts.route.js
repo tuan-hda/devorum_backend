@@ -25,5 +25,10 @@ router.put(
   authenticateJWT,
   require("../controllers/posts/toggleView.controller")
 );
+router.delete(
+  "/delete",
+  authenticateJWT,
+  require("../controllers/posts/deletePost.controller")
+);
 
 module.exports = router;

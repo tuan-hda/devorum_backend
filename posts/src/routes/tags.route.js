@@ -10,4 +10,16 @@ router.post(
   require("../controllers/tags/createTag.controller")
 );
 
+router.put(
+  "/update",
+  authenticateJWT,
+  require("../controllers/tags/updateTag.controller")
+);
+
+router.delete(
+  "/delete",
+  authenticateJWT,
+  require("../controllers/tags/deleteTag.controller")
+);
+
 module.exports = router;

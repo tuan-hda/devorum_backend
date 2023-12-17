@@ -1360,6 +1360,11 @@ mongodb@^6.2.0:
     bson "^6.2.0"
     mongodb-connection-string-url "^3.0.0"
 
+mongoose-delete@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mongoose-delete/-/mongoose-delete-1.0.1.tgz#8db2f5b1a1d487351c1af18634c2c4e99d4cd1f2"
+  integrity sha512-vm24uep4UJOW3Ac8H/gDxURcwvl+1Cc2H7tIJ0O8ejDEFJIUoksKS9HzTOM4SvEJusAVQ0JpjhbttHpevUz71A==
+
 mongoose-paginate-v2@^1.7.4:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/mongoose-paginate-v2/-/mongoose-paginate-v2-1.7.4.tgz#f2ce1def9598b81b251df19eeb53982283fdc986"

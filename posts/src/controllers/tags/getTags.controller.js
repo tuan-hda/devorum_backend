@@ -3,10 +3,6 @@ const TagModel = require("../../models/Tag");
 
 const getTags = async (req, res, next) => {
   try {
-    // TagModel.deleteMany().then(() => {
-    //   console.log('first')
-    //   return;
-    // });
     const { ids, names } = req.query;
 
     const condition = {};

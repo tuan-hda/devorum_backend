@@ -19,7 +19,8 @@ const getPosts = async (req, res, next) => {
 
     const posts = data.docs.map((post) => ({
       ...post.toObject(),
-      user: users ? users.find((user) => user._id === post.user) : {},
+      user: users.find((user) => user._id === post.user),
+      tags: post.toObject().tags.filter((tag) => !tag.deleted),
     }));
 
     const result = {

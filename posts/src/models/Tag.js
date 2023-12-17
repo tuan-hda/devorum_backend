@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoose_delete = require("mongoose-delete");
 
 const TagSchema = new mongoose.Schema({
   name: {
@@ -15,5 +16,6 @@ const TagSchema = new mongoose.Schema({
   },
 });
 
+TagSchema.plugin(mongoose_delete, { deletedAt: true });
 const TagModel = mongoose.model("tag", TagSchema);
 module.exports = TagModel;
