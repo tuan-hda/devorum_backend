@@ -7,9 +7,13 @@ const liveRoute = require('./routes/live.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
 const WebSocket = require('ws')
-const { heartbeat } = require('./websocket/util.js')
+const setupSocket = require('./routes/setupSocket.js')
 const wss = new WebSocket.Server({ noServer: true })
 const setupWSConnection = require('./websocket/util.js').setupWSConnection
+// const WebSocket = require('ws')
+// const { heartbeat } = require('./websocket/util.js')
+// const wss = new WebSocket.Server({ noServer: true })
+// const setupWSConnection = require('./websocket/util.js').setupWSConnection
 
 process
     .on('unhandledRejection', (reason, p) => {
@@ -58,12 +62,12 @@ const server = app.listen(config.PORT, () => {
 
 wss.on('connection', function connection(ws, req, data) {
     setupWSConnection(ws, req, data)
+    console.log('Connect')
+    ws.addEventListener('close', function (event) {
+        console.log('disconnected')
+    })
+    setupSocket(wss, ws)
 })
-
-setInterval(() => {
-    console.log(`Setting the interval ${wss.clients.length}`)
-    console.log('wss-client:', wss.clients.size)
-}, 30000)
 
 server.on('upgrade', (request, socket, head) => {
     const handleAuth = (ws) => {
