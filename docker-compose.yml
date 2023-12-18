@@ -27,6 +27,7 @@ services:
       - community
       - chat
       - server
+      - live
     ports:
       - "80:80"
 
@@ -96,6 +97,19 @@ services:
     volumes:
       - ./chat:/app/chat
 
+  live:
+    build:
+      dockerfile: Dockerfile
+      context: live
+    container_name: live
+    ports:
+      - "8102:8102"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./live:/app/live
+
   # judge0
   server:
     platform: linux/amd64
@@ -145,6 +159,16 @@ services:
       - redis-data:/data
     <<: *default-logging
     restart: always
+
+  # webssh2
+  webssh2:
+    image: billchurch/webssh2:0.5.0-pre-4
+    ports:
+      - "2222:2222"
+    container_name: webssh2
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   postgres-data:
