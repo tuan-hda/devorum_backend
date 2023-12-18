@@ -31,25 +31,32 @@ module.exports = (socketIO, socket) => {
     })
 
     socket.on('message', async (data) => {
-        console.log('sending message to room', data.room)
+        const kind = data.kind
+        console.log('sending message to room ' + kind ?? '', data.room)
         try {
-            const message = await MessageModel.create(data)
-            await RoomModel.updateOne(
-                {
-                    _id: message.room,
-                },
-                {
-                    $set: {
-                        lastMessage: message._id,
-                        lastMessageAt: message.createdAt,
+            let message = null
+            if (kind === 'dev') {
+                message = data
+            } else {
+                message = await MessageModel.create(data)
+                await RoomModel.updateOne(
+                    {
+                        _id: message.room,
                     },
-                }
-            )
+                    {
+                        $set: {
+                            lastMessage: message._id,
+                            lastMessageAt: message.createdAt,
+                        },
+                    }
+                )
+            }
+
             socketIO
                 .to(data.room)
                 .emit('messageResponse', { message, type: 'append' })
         } catch (error) {
-            console.log('error sending message to room', error)
+            console.log('error sending message to room ' + kind ?? '', error)
         }
     })
 
