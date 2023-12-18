@@ -8,6 +8,12 @@ router.get(
     require('../controllers/listLiveRooms.controller')
 )
 
+router.get(
+    '/:id',
+    authenticateJWT,
+    require('../controllers/getLiveRoom.controller')
+)
+
 router.post(
     '/',
     authenticateJWT,

@@ -1,6 +1,7 @@
 const { default: mongoose } = require('mongoose')
 const { getYDoc } = require('../websocket/util')
 const { v4: uuidv4 } = require('uuid')
+const updateLiveRoomService = require('../services/updateLiveRoomService')
 let joinDevs = {}
 
 const colors = [
@@ -32,6 +33,7 @@ module.exports = (wss, ws, req, data) => {
         color: findColor(docName),
         ws: ws,
     }
+    updateLiveRoomService(docName, false)
 
     wss.broadcastToRoom = function broadcast(room, msg) {
         Object.values(joinDevs[room]).forEach((dev) => {
@@ -58,12 +60,13 @@ module.exports = (wss, ws, req, data) => {
         }
     })
 
-    ws.addEventListener('close', function (event) {
+    ws.addEventListener('close', async function (event) {
         if (!joinDevs[docName][uuid]) return
         // Check number of devs in room to schedule destruction
         if (Object.keys(joinDevs[docName]).length === 1) {
             console.log('Destroy room after 5 mins', docName)
             delete joinDevs[docName][uuid]
+            updateLiveRoomService(docName, true)
         } else delete joinDevs[docName][uuid]
         wss.broadcastToRoom(
             docName,

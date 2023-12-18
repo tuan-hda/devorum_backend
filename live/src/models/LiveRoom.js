@@ -10,6 +10,16 @@ const LiveRoomSchema = new mongoose.Schema(
             type: Number,
             required: false,
         },
+        visibility: {
+            type: String,
+            enum: ['public', 'private'],
+            default: 'public',
+            required: true,
+        },
+        accessibleUsers: {
+            type: [String],
+            default: [],
+        },
     },
     {
         timestamps: true,

@@ -1,29 +1,13 @@
-const LiveRoomModel = require('../models/LiveRoom')
+const updateLiveRoomService = require('../services/updateLiveRoomService')
 
 const updateLiveRoom = async (req, res, next) => {
     try {
-        const liveRoom = await LiveRoomModel.findById(req.params.id)
+        const id = req.params.id
         const isDeleted = req.body.isDeleted
+        const visibility = req.body.visibility
+        const accessibleUsers = req.body.accessibleUsers
 
-        if (!liveRoom) {
-            return res.status(404).json({
-                msg: 'Live room not found',
-            })
-        }
-
-        if (isDeleted) {
-            const timeout = setTimeout(async () => {
-                await LiveRoomModel.findByIdAndDelete(req.params.id)
-            }, 1000 * 60)
-            liveRoom.timeout = timeout
-            await liveRoom.save()
-        } else {
-            if (liveRoom.timeout) {
-                clearTimeout(liveRoom.timeout)
-                liveRoom.timeout = null
-                await liveRoom.save()
-            }
-        }
+        await updateLiveRoomService(id, isDeleted, visibility, accessibleUsers)
 
         return res.status(200).json({
             msg: 'Updated successfully',
