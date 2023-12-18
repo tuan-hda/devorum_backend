@@ -21,9 +21,9 @@ router.put(
   require("../controllers/posts/toggleVote.controller")
 );
 router.put(
-  "/toggle-view",
+  "/add-view",
   authenticateJWT,
-  require("../controllers/posts/toggleView.controller")
+  require("../controllers/posts/addView.controller")
 );
 router.delete(
   "/delete",

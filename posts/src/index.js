@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const PostModel = require("./models/Post");
 const CommentModel = require("./models/Comment");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 // connect db
 mongoose.connect(config.DB_CONN_STR);
@@ -88,6 +89,9 @@ connection.once("open", async () => {
     }),
   ]).then(() => console.log(new Date(), "database established successfully"));
 });
+
+app.use(cors({ origin: config.whitelist, credentials: true }));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/", require("./routes/posts.route"));

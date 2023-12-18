@@ -51,6 +51,11 @@ const PostSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    closed: {
+      type: Boolean,
+      default: false,
+    },
+    closedAt: Date,
   },
   { timestamps: true }
 );
