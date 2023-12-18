@@ -7,13 +7,18 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
+            trim: true,
+            lowercase: true,
         },
         email: {
             type: String,
             required: true,
             unique: true,
+            trim: true,
+            lowercase: true,
         },
         password: {
+            trim: true,
             type: String,
             required: true,
         },
@@ -35,6 +40,10 @@ const UserSchema = new mongoose.Schema(
         work: String,
         education: String,
         position: String,
+        isEmailVerified: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

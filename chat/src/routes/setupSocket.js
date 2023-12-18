@@ -2,6 +2,8 @@ const { default: mongoose } = require('mongoose')
 const MessageModel = require('../models/Message')
 const RoomModel = require('../models/Room')
 
+let joinDevs = {}
+
 module.exports = (socketIO, socket) => {
     socket.on('message', (data) => {
         socketIO.emit('messageResponse', data)
@@ -17,6 +19,15 @@ module.exports = (socketIO, socket) => {
         data.forEach((room) => {
             socket.join(room)
         })
+    })
+
+    socket.on('joinRoomDev', (data) => {
+        console.log('joining room dev', data)
+
+        socket.join(data.room)
+        joinDevs[data.room] = { ...joinDevs[data.room] }
+        joinDevs[data.room][socket.id] = data
+        socketIO.emit('joinRoomDevResponse', joinDevs)
     })
 
     socket.on('message', async (data) => {
@@ -137,5 +148,17 @@ module.exports = (socketIO, socket) => {
         } catch (error) {
             console.log('error sending stop typing state', error)
         }
+    })
+
+    socket.on('disconnect', () => {
+        Object.keys(joinDevs).forEach((room) => {
+            if (joinDevs[room][socket.id]) {
+                delete joinDevs[room][socket.id]
+                console.log('deleted,', joinDevs[room])
+                socketIO.emit('joinRoomDevResponse', joinDevs)
+            }
+        })
+
+        console.log('user disconnected')
     })
 }

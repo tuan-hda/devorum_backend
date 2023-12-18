@@ -3,9 +3,17 @@ const app = express()
 const cors = require('cors')
 const config = require('./configs/config.js')
 const mongoose = require('mongoose')
-const communityRoute = require('./routes/community.route.js')
+const liveRoute = require('./routes/live.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
+const WebSocket = require('ws')
+const setupSocket = require('./routes/setupSocket.js')
+const wss = new WebSocket.Server({ noServer: true })
+const setupWSConnection = require('./websocket/util.js').setupWSConnection
+// const WebSocket = require('ws')
+// const { heartbeat } = require('./websocket/util.js')
+// const wss = new WebSocket.Server({ noServer: true })
+// const setupWSConnection = require('./websocket/util.js').setupWSConnection
 
 process
     .on('unhandledRejection', (reason, p) => {
@@ -27,7 +35,7 @@ app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use(communityRoute)
+app.use(liveRoute)
 
 app.use((err, req, res, next) => {
     if (isHttpError(err) && err.statusCode < 500) {
@@ -48,6 +56,19 @@ app.use((err, req, res, next) => {
     })
 })
 
-app.listen(config.PORT, () => {
+const server = app.listen(config.PORT, () => {
     console.log(new Date(), 'listening on port:', config.PORT)
+})
+
+wss.on('connection', function connection(ws, req, data) {
+    setupWSConnection(ws, req, data)
+    console.log('Connect')
+    setupSocket(wss, ws, req, data)
+})
+
+server.on('upgrade', (request, socket, head) => {
+    const handleAuth = (ws) => {
+        wss.emit('connection', ws, request)
+    }
+    wss.handleUpgrade(request, socket, head, handleAuth)
 })

@@ -15,7 +15,7 @@ process
         console.error(err, 'Uncaught Exception thrown')
         process.exit(1)
     })
-
+    
 // connect db
 mongoose.connect(config.DB_CONN_STR)
 const connection = mongoose.connection

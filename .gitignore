@@ -20,5 +20,13 @@ community/.env
 chat/node_modules
 chat/.env
 
+# live
+live/node_modules
+live/.env
+
+# # boilerplate
+# live/node_modules
+# live/.env
+
 .DS_Store
 db/
