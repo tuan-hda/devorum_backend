@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const CommentSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
     content: {
       type: String,
+      required: true,
     },
     views: {
       type: [
@@ -37,6 +34,7 @@ const CommentSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    answer: { type: Boolean, default: false },
   },
   {
     timestamps: true,

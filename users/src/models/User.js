@@ -44,6 +44,7 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        follow: { type: [{ id: String, type: String }] },
     },
     {
         timestamps: true,
