@@ -1,7 +1,7 @@
 const PostModel = require("../../models/Post");
 const createHttpError = require("http-errors");
 
-const toggleView = async (req, res, next) => {
+const addView = async (req, res, next) => {
   try {
     const user = req.user;
     const { post_id } = req.body;
@@ -26,4 +26,4 @@ const toggleView = async (req, res, next) => {
   }
 };
 
-module.exports = toggleView;
+module.exports = addView;

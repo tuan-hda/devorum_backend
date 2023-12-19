@@ -7,10 +7,7 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
-      type: String,
-      default: "",
-    },
+    content: String,
     views: {
       type: [
         {
@@ -51,6 +48,12 @@ const PostSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    closed: {
+      type: Boolean,
+      default: false,
+    },
+    closedAt: Date,
+    community: String,
   },
   { timestamps: true }
 );

@@ -4,15 +4,17 @@ const createHttpError = require("http-errors");
 const updatePost = async (req, res, next) => {
   try {
     const user = req.user;
-    const { post_id, title, content, tags } = req.body;
+    const { _id, title, content, tags, closed } = req.body;
 
     const updatedData = {
       title,
       content,
       tags,
+      closed,
+      closedAt: closed ? new Date() : null,
     };
 
-    const post = await PostModel.findById(post_id);
+    const post = await PostModel.findById(_id);
 
     if (!post) {
       throw createHttpError[404]("Not found");
@@ -22,11 +24,10 @@ const updatePost = async (req, res, next) => {
       throw createHttpError[403]("Forbidden");
     }
 
-    const updatedPost = await PostModel.findByIdAndUpdate(
-      post_id,
-      updatedData,
-      { new: true, populate: "tags" }
-    );
+    const updatedPost = await PostModel.findByIdAndUpdate(_id, updatedData, {
+      new: true,
+      populate: "tags",
+    });
 
     if (!updatedPost) {
       throw createHttpError[500]("Internal server error");

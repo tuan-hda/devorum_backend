@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
 const CommentSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
     content: {
       type: String,
-      default: "",
+      required: true,
     },
     views: {
       type: [
@@ -16,7 +12,6 @@ const CommentSchema = new mongoose.Schema(
           unique: true,
         },
       ],
-      default: [],
     },
     votes: {
       type: [
@@ -25,21 +20,21 @@ const CommentSchema = new mongoose.Schema(
           unique: true,
         },
       ],
-      default: [],
     },
-    user: {
+    author: {
       type: String,
       required: true,
     },
-    tags: {
+    comments: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "tag",
+          ref: "comment",
         },
       ],
       default: [],
     },
+    answer: { type: Boolean, default: false },
   },
   {
     timestamps: true,
