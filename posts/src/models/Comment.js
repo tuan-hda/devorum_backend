@@ -7,7 +7,6 @@ const CommentSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      default: "",
     },
     views: {
       type: [
@@ -16,7 +15,6 @@ const CommentSchema = new mongoose.Schema(
           unique: true,
         },
       ],
-      default: [],
     },
     votes: {
       type: [
@@ -25,17 +23,16 @@ const CommentSchema = new mongoose.Schema(
           unique: true,
         },
       ],
-      default: [],
     },
-    user: {
+    author: {
       type: String,
       required: true,
     },
-    tags: {
+    comments: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "tag",
+          ref: "comment",
         },
       ],
       default: [],
