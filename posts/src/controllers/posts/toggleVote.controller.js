@@ -20,7 +20,7 @@ const toggleVote = async (req, res, next) => {
 
     await post.save();
 
-    res.status(200).json({ votes: post.votes });
+    res.status(200).json(post.votes);
   } catch (error) {
     next(error);
   }
