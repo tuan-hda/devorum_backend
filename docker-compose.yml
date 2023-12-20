@@ -24,7 +24,8 @@ services:
     depends_on:
       - users
       - upload
-      # - posts
+      - posts
+      - report
       - community
       - chat
       - server
@@ -170,6 +171,19 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  report:
+    build:
+      dockerfile: Dockerfile
+      context: report
+    container_name: report
+    ports:
+      - "8103:8103"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./report:/app/report
 
 volumes:
   postgres-data:

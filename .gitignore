@@ -24,6 +24,10 @@ chat/.env
 live/node_modules
 live/.env
 
+# report
+report/node_modules
+report/.env
+
 # # boilerplate
 # live/node_modules
 # live/.env
