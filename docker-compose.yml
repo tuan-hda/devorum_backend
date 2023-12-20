@@ -9,12 +9,13 @@ x-logging:
 
 services:
   nosql-db:
-    image: mongo:7.0-rc
+    image: mongo:5.0.23
     ports:
       - "27018:27017"
     container_name: nosql-db
     volumes:
       - ./db/:/data/db
+
 
   nginx-proxy:
     build:
@@ -23,7 +24,7 @@ services:
     depends_on:
       - users
       - upload
-      - posts
+      # - posts
       - community
       - chat
       - server
