@@ -30,6 +30,7 @@ services:
       - chat
       - server
       - live
+      - notifications
     ports:
       - "80:80"
 
@@ -184,6 +185,19 @@ services:
       - "nosql-db"
     volumes:
       - ./report:/app/report
+
+  notifications:
+    build:
+      dockerfile: Dockerfile
+      context: notifications
+    container_name: notifications
+    ports:
+      - "8104:8104"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - ./notifications:/app/notifications
 
 volumes:
   postgres-data:
