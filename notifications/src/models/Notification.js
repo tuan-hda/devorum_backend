@@ -13,12 +13,12 @@ const NotificationSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        trigger: {
+        from: {
             type: String,
             required: true,
             trim: true,
         },
-        of: {
+        owner: {
             type: String,
             required: true,
             trim: true,
@@ -27,6 +27,16 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             required: true,
             default: false,
+        },
+        action: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        href: {
+            type: String,
+            required: true,
+            trim: true,
         },
     },
     {
