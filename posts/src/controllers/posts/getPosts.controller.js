@@ -14,7 +14,7 @@ const getPosts = async (req, res, next) => {
       populate: ["tags", "comments"],
     });
 
-    const ids = data.docs.map((post) => post.user);
+    const ids = data.docs.map((post) => post.user) || [];
     const users = await getUserProducer({ id: ids });
 
     const posts = data.docs.map((post) => ({
