@@ -7,14 +7,17 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    user: {
+      type: String,
+      required: true,
+    },
     content: String,
     views: {
-      type: [
-        {
-          type: String,
-          unique: true,
-        },
-      ],
+      type: [String],
+      default: [],
+    },
+    votes: {
+      type: [String],
       default: [],
     },
     comments: {
@@ -25,19 +28,6 @@ const PostSchema = new mongoose.Schema(
         },
       ],
       default: [],
-    },
-    votes: {
-      type: [
-        {
-          type: String,
-          unique: true,
-        },
-      ],
-      default: [],
-    },
-    user: {
-      type: String,
-      required: true,
     },
     tags: {
       type: [

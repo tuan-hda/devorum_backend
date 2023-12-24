@@ -1,4 +1,6 @@
+const { ObjectId } = require("mongodb");
 const { getUserProducer } = require("../../broker/userProducer");
+const PostModel = require("../../models/Post");
 const TagModel = require("../../models/Tag");
 
 const getTags = async (req, res, next) => {
@@ -12,13 +14,23 @@ const getTags = async (req, res, next) => {
     const data = await TagModel.find(condition);
     if (data.length === 0) return res.status(200).json([]);
 
-    // const author_ids = data.map((tag) => tag.author_id);
-    // const users = await getUserProducer({ id: author_ids });
+    const getPostsByTag = async (tag_id) => {
+      const posts = await PostModel.where({
+        tags: { $in: [tag_id] },
+      });
+      return posts.map((post) => post.toObject()._id);
+    };
 
-    const result = data.map((tag) => ({
-      ...tag.toObject(),
-      // author: users.find((user) => user._id === tag.author_id),
-    }));
+    const promises = data.map(async (tag) => {
+      const post_ref = await getPostsByTag(tag.toObject()._id);
+
+      return {
+        ...tag.toObject(),
+        post_ref,
+      };
+    });
+
+    const result = await Promise.all(promises);
 
     res.status(200).json(result);
   } catch (error) {
