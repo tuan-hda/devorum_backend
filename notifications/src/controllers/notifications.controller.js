@@ -46,6 +46,7 @@ module.exports.listNotificationsController = async (req, res, next) => {
                 )
                 fromUsersData = fromUsersData.reduce((acc, cur) => {
                     acc[cur.username] = cur
+                    return acc
                 }, {})
 
                 console.log(
