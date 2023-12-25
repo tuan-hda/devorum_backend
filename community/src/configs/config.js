@@ -11,4 +11,5 @@ module.exports = {
     MSG_QUEUE_URL: process.env.MSG_QUEUE_URL || 'amqp://192.168.1.242',
     RPC_QUEUE_NAME: process.env.RPC_QUEUE_NAME || 'rpc_community_queue',
     REPLY_TO_QUEUE_NAME: process.env.REPLY_TO_QUEUE_NAME || 'community_queue',
+    FRONTEND_DOMAIN: process.env.FRONTEND_DOMAIN || 'http://localhost:3000',
 }
