@@ -60,6 +60,14 @@ module.exports = (socketIO, socket) => {
         }
     })
 
+    socket.on('kick', async (data) => {
+        try {
+            socketIO.to(data.room).emit('kickResponse', data)
+        } catch (error) {
+            console.log('error kicking user from live room:', error)
+        }
+    })
+
     socket.on('likeMessage', async (data) => {
         console.log('like message')
         try {

@@ -82,9 +82,9 @@ const getProfileService = async ({ username, id, authUser }) => {
         { $unset: ['password', 'followStatus.to'] },
     ])
 
-    if (!users || (Array.isArray(users) && users.length === 0)) {
-        throw createHttpError[404]('User not found')
-    }
+    // if (!users || (Array.isArray(users) && users.length === 0)) {
+    //     throw createHttpError[404]('User not found')
+    // }
 
     return users
 }
