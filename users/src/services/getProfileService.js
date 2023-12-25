@@ -15,11 +15,11 @@ const getProfileService = async ({ username, id, authUser }) => {
                     as: 'followStatus',
                     from: 'follows',
                     foreignField: 'to',
-                    localField: '_id',
+                    localField: 'username',
                     pipeline: [
                         {
                             $match: {
-                                from: new ObjectId(authUser._id),
+                                from: authUser.username,
                             },
                         },
                     ],
@@ -30,11 +30,11 @@ const getProfileService = async ({ username, id, authUser }) => {
                     as: 'blockStatus',
                     from: 'blocks',
                     foreignField: 'to',
-                    localField: '_id',
+                    localField: 'username',
                     pipeline: [
                         {
                             $match: {
-                                from: new ObjectId(authUser._id),
+                                from: authUser.username,
                             },
                         },
                     ],
