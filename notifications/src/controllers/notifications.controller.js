@@ -9,14 +9,14 @@ module.exports.createNotificationController =
             const { type, content, from, owner, action, href } = req.body
 
             res.status(201).json(
-                await createNotification(socketIO)(
+                await createNotification(socketIO)({
                     type,
                     content,
                     from,
                     owner,
                     action,
-                    href
-                )
+                    href,
+                })
             )
         } catch (error) {
             next(error)
@@ -38,7 +38,9 @@ module.exports.listNotificationsController = async (req, res, next) => {
             .map((noti) => noti.from)
 
         if (fromUsers.length !== 0) {
-            let fromUsersData = await getUserProducer({ username: fromUsers })
+            let fromUsersData = await getUserProducer({
+                username: fromUsers,
+            })
             if (Array.isArray(fromUsersData) && fromUsersData.length > 0) {
                 console.log(
                     'fromUsersData from list notifications before convert to object',
@@ -72,15 +74,10 @@ module.exports.listNotificationsController = async (req, res, next) => {
 module.exports.updateNotificationController = async (req, res, next) => {
     try {
         const id = req.params.id
-        const user = req.user
         const notification = await NotificationModel.findById(id)
 
         if (!notification) {
             throw createHttpError[404]('Notification not found')
-        }
-
-        if (String(notification.owner) !== user.username) {
-            throw createHttpError[403]('Forbidden')
         }
 
         const { isRead } = req.body
@@ -98,16 +95,11 @@ module.exports.updateNotificationController = async (req, res, next) => {
 module.exports.deleteNotificationController = async (req, res, next) => {
     try {
         const id = req.params.id
-        const user = req.user
 
         const notification = await NotificationModel.findById(id)
 
         if (!notification) {
             throw createHttpError[404]('Notification not found')
-        }
-
-        if (String(notification.owner) !== user.username) {
-            throw createHttpError[403]('Forbidden')
         }
 
         await notification.deleteOne()

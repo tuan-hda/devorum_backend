@@ -7,6 +7,7 @@ const notificationsRoute = require('./routes/notifications.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
 const setupSocket = require('./routes/setupSocket.js')
+const initConsumer = require('./broker/initConsumer.js')
 
 process
     .on('unhandledRejection', (reason, p) => {
@@ -60,6 +61,7 @@ const socketIO = require('socket.io')(server, {
 socketIO.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`)
 
+    initConsumer(socketIO)
     setupSocket(socketIO, socket)
 })
 

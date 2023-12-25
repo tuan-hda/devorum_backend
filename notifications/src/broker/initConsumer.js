@@ -1,17 +1,17 @@
 const amqplib = require('amqplib')
-const getProfileService = require('../services/getProfileService')
+const createNotification = require('../services/createNotification')
 const config = require('../configs/config')
-const { getChannel } = require('../broker copy/rabbitMq')
+const { getChannel } = require('../broker/rabbitMq')
 
 const ACTIONS = {
-    getUser: getProfileService,
+    createNotification: createNotification,
 }
 
 /**
  *
  * @param {amqplib.Channel} channel
  */
-const initConsumer = async () => {
+const initConsumer = async (socketIO) => {
     const channel = await getChannel()
     channel.prefetch(1)
     await channel.assertQueue(config.RPC_QUEUE_NAME, {
@@ -21,7 +21,7 @@ const initConsumer = async () => {
     channel.consume(
         config.RPC_QUEUE_NAME,
         async (msg) => {
-            console.log('user channel received message')
+            console.log('notifications channel received message')
             if (!msg) {
                 return
             }
@@ -45,7 +45,7 @@ const initConsumer = async () => {
                 // Perform some operation based on action
                 console.log('perform action', action)
                 console.time('perform-action')
-                const result = await ACTIONS[action](data)
+                const result = await ACTIONS[action](socketIO)(data)
                 console.timeEnd('perform-action')
 
                 // Set response data if success

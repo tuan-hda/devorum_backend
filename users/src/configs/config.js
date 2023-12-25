@@ -8,4 +8,5 @@ module.exports = {
     whitelist: ['http://localhost:3000'],
     MSG_QUEUE_URL: process.env.MSG_QUEUE_URL || 'amqp://192.168.1.242',
     RPC_QUEUE_NAME: process.env.RPC_QUEUE_NAME || 'users_rpc_queue',
+    FRONTEND_DOMAIN: process.env.FRONTEND_DOMAIN || 'http://localhost:3000',
 }
