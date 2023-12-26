@@ -36,6 +36,12 @@ router.get(
 )
 router.post('/:name/members', authenticateJWT, joinCommunityController)
 router.delete('/:name/members', authenticateJWT, leaveCommunityController)
+router.delete(
+    '/:name/members/:username',
+    authenticateJWT,
+    require('../controllers/removeUserFromCommunity.controller')
+)
+
 router.put(
     '/:name/members/self-update',
     authenticateJWT,
@@ -65,5 +71,33 @@ router.delete(
 // Mods
 router.post('/:name/mods', authenticateJWT, addModController)
 router.delete('/:name/mods/:username', authenticateJWT, deleteModController)
+
+router.post(
+    '/:name/invitation',
+    authenticateJWT,
+    require('../controllers/invite.controller')
+)
+router.delete(
+    '/:name/invitation/:username',
+    authenticateJWT,
+    require('../controllers/deleteInvitation.controller')
+)
+
+// Ban
+router.post(
+    '/:name/ban',
+    authenticateJWT,
+    require('../controllers/banUser.controller')
+)
+router.get(
+    '/:name/ban',
+    authenticateJWT,
+    require('../controllers/listBannedUsers.controller')
+)
+router.delete(
+    '/:name/ban/:username',
+    authenticateJWT,
+    require('../controllers/deleteBanUser.controller')
+)
 
 module.exports = router
