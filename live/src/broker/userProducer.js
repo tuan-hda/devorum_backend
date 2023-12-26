@@ -6,9 +6,7 @@ const targetQueueName = 'rpc_users_queue'
 
 const getUserProducer = async ({ username, id: userId, authUser }) => {
     const channel = await getChannel()
-    await channel.assertQueue(config.REPLY_TO_QUEUE_NAME, {
-        exclusive: true,
-    })
+    await channel.assertQueue(config.REPLY_TO_QUEUE_NAME, {})
 
     const payload = {
         action: 'getUser',

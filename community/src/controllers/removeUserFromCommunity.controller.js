@@ -19,6 +19,7 @@ const removeUserFromCommunity = async (req, res, next) => {
         }
 
         await joinedCommunity.deleteOne()
+        await community.updateOne({ $pull: { moderators: username } })
         res.status(200).json({
             message: 'Removed user from community',
         })

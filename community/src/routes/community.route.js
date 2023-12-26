@@ -89,6 +89,11 @@ router.post(
     authenticateJWT,
     require('../controllers/banUser.controller')
 )
+router.get(
+    '/:name/ban',
+    authenticateJWT,
+    require('../controllers/listBannedUsers.controller')
+)
 router.delete(
     '/:name/ban/:username',
     authenticateJWT,

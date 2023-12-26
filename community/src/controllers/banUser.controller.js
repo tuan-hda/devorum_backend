@@ -19,6 +19,7 @@ const banUserController = async (req, res, next) => {
             communityId: community._id,
             username: username,
         })
+        await community.updateOne({ $pull: { moderators: username } })
 
         res.status(201).json(ban)
     } catch (error) {

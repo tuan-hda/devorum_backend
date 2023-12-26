@@ -13,9 +13,7 @@ const createNotificationProducer = async ({
     href,
 }) => {
     const channel = await getChannel()
-    await channel.assertQueue(config.REPLY_TO_QUEUE_NAME, {
-        exclusive: true,
-    })
+    await channel.assertQueue(config.REPLY_TO_QUEUE_NAME, {})
 
     const payload = {
         action: 'createNotification',
