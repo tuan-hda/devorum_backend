@@ -4,12 +4,12 @@ const createHttpError = require("http-errors");
 const updateTag = async (req, res, next) => {
   try {
     const user = req.user;
-    const { tag_id, name, desc } = req.body;
+    const { tag_id, name, desc, deleted } = req.body;
 
-    const updatedData = {
-      name: name.trim().replace(/\s+/g, "-").toLowerCase(),
-      desc,
-    };
+    const updatedData = {};
+    if (name) updatedData.name = name.trim().replace(/\s+/g, "-").toLowerCase();
+    if (desc) updatedData.desc = desc;
+    updatedData.deleted = deleted;
 
     const tag = await TagModel.findById(tag_id);
 
