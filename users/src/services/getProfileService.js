@@ -15,11 +15,11 @@ const getProfileService = async ({ username, id, authUser }) => {
                     as: 'followStatus',
                     from: 'follows',
                     foreignField: 'to',
-                    localField: '_id',
+                    localField: 'username',
                     pipeline: [
                         {
                             $match: {
-                                from: new ObjectId(authUser._id),
+                                from: authUser.username,
                             },
                         },
                     ],
@@ -30,11 +30,11 @@ const getProfileService = async ({ username, id, authUser }) => {
                     as: 'blockStatus',
                     from: 'blocks',
                     foreignField: 'to',
-                    localField: '_id',
+                    localField: 'username',
                     pipeline: [
                         {
                             $match: {
-                                from: new ObjectId(authUser._id),
+                                from: authUser.username,
                             },
                         },
                     ],
@@ -82,9 +82,9 @@ const getProfileService = async ({ username, id, authUser }) => {
         { $unset: ['password', 'followStatus.to'] },
     ])
 
-    if (!users || (Array.isArray(users) && users.length === 0)) {
-        throw createHttpError[404]('User not found')
-    }
+    // if (!users || (Array.isArray(users) && users.length === 0)) {
+    //     throw createHttpError[404]('User not found')
+    // }
 
     return users
 }

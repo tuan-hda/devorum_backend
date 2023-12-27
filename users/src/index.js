@@ -40,13 +40,13 @@ app.use((err, req, res, next) => {
         })
     }
 
+    console.log(err)
     if (err.kind === 'ObjectId') {
         return res.status(400).json({
             msg: 'Invalid id',
         })
     }
 
-    console.log(err)
     res.status(500).json({
         msg: 'Internal server error',
     })

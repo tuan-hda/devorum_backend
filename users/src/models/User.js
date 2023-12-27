@@ -73,5 +73,17 @@ UserSchema.methods.toJSON = function () {
     return user
 }
 
+UserSchema.virtual('from', {
+    ref: 'follow',
+    localField: '_id',
+    foreignField: 'from',
+})
+
+// UserSchema.virtual('from', {
+//     ref: 'follow',
+//     localField: 'username',
+//     foreignField: 'from',
+// })
+
 const UserModel = mongoose.model('user', UserSchema)
 module.exports = UserModel

@@ -49,6 +49,11 @@ const CommunitySchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        allowUsers: {
+            type: [String],
+            required: true,
+            default: [],
+        },
     },
     {
         timestamps: true,

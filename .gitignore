@@ -28,6 +28,10 @@ live/.env
 report/node_modules
 report/.env
 
+# notifications
+notifications/node_modules
+notifications/.env
+
 # # boilerplate
 # live/node_modules
 # live/.env
