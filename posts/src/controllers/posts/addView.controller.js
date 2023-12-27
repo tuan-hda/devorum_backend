@@ -4,17 +4,15 @@ const createHttpError = require("http-errors");
 const addView = async (req, res, next) => {
   try {
     const user = req.user;
-    const { post_id } = req.body;
+    const { _id } = req.body;
 
-    const post = await PostModel.findById(post_id);
+    const post = await PostModel.findById(_id);
 
     if (!post) {
       throw createHttpError[404]("Not found");
     }
 
-    if (post.views.includes(user._id)) {
-      post.views = post.views.filter((userId) => userId !== user._id);
-    } else {
+    if (!post.views.includes(user._id)) {
       post.views.push(user._id);
     }
 

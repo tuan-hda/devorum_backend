@@ -5,6 +5,10 @@ const updatePost = async (req, res, next) => {
   try {
     const user = req.user;
     const { _id, title, content, tags, closed } = req.body;
+    console.log(
+      "🚀 ~ file: updatePost.controller.js:8 ~ updatePost ~ req.body:",
+      req.body
+    );
 
     const updatedData = {
       title,

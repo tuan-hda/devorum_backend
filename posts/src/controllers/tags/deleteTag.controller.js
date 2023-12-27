@@ -4,7 +4,7 @@ const createHttpError = require("http-errors");
 const deleteTag = async (req, res, next) => {
   try {
     const user = req.user;
-    const { tag_id } = req.body;
+    const { tag_id } = req.query;
 
     const tag = await TagModel.findById(tag_id);
 
