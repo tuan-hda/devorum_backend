@@ -1,5 +1,6 @@
 const createHttpError = require('http-errors')
 const ReportModel = require('../models/Report')
+const { createNotificationProducer } = require('../broker/notificationProducer')
 
 const updateReportController = async (req, res, next) => {
     try {
@@ -12,6 +13,20 @@ const updateReportController = async (req, res, next) => {
         }
 
         const resolved = req.body.resolved
+
+        if (report.resolved !== resolved) {
+            createNotificationProducer({
+                type: 'general',
+                from: 'admin',
+                action: resolved ? 'resolve report' : 'unresolve report',
+                content: `Report with id ${report._id} has been ${
+                    resolved ? 'resolved' : 'unresolved'
+                }. Report content: ${report.description}`,
+                owner: report.createdBy,
+                href: '#',
+            })
+        }
+
         report.resolved = resolved
         await report.save()
 
