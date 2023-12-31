@@ -36,7 +36,7 @@ module.exports.listCommentsController = async (req, res, next) => {
             comments[i] = await populateComments(comments[i])
         }
 
-        res.status(200).json(comments)
+        res.status(200).json({ total: await CommentModel.countDocuments({ postId: postId }), comments: comments })
     } catch (error) {
         next(error)
     }
@@ -63,9 +63,18 @@ module.exports.updateCommentController = async (req, res, next) => {
 
 module.exports.deleteCommentController = async (req, res, next) => {
     try {
-        await CommentModel.deleteOne({
-            _id: req.params.commentId,
-        })
+        const deleteSubComment = async (comment) => {
+            let replies = await CommentModel.find({ replyTo: comment._id })
+            for (let i = 0; i < replies.length; i += 1) {
+                await deleteSubComment(replies[i])
+            }
+            await comment.deleteOne()
+        }
+
+        const comment = await CommentModel.findById(req.params.commentId)
+        await deleteSubComment(comment)
+        await comment.deleteOne()
+
         res.status(200).json({
             msg: 'Deleted successfully',
         })
