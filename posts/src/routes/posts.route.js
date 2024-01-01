@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router()
 const { authenticateJWT } = require('../middlewares/auth.middleware')
 
-router.get('/', require('../controllers/posts/getPosts.controller'))
+router.get(
+    '/',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    require('../controllers/posts/getPosts.controller')
+)
 router.get('/self', authenticateJWT, require('../controllers/posts/listSelfPosts.controller'))
 
 router.post('/create', authenticateJWT, require('../controllers/posts/createPost.controller'))

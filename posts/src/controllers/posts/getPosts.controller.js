@@ -3,10 +3,18 @@ const PostModel = require('../../models/Post')
 
 const getPosts = async (req, res, next) => {
     try {
-        const { page, size } = req.query
+        const user = req.user
+        const { page, size, community, state } = req.query
         const { limit, offset } = getPagination(page, size)
 
         const condition = {}
+
+        if (!user || (user._id !== 'admin' && user.role !== 'admin')) {
+            condition.state = 'accepted'
+        }
+
+        if (community) condition.community = community
+        if (state) condition.state = state
         // Posts and users
         const data = await PostModel.paginate(condition, {
             offset,

@@ -1,10 +1,10 @@
 const amqplib = require('amqplib')
-const getProfileService = require('../services/getProfileService')
+const getCommunityService = require('../services/getCommunityService')
 const config = require('../configs/config')
 const { getChannel } = require('./rabbitMq')
 
 const ACTIONS = {
-    getUser: getProfileService,
+    getCommunity: getCommunityService,
 }
 
 /**

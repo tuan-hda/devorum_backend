@@ -39,6 +39,12 @@ const PostSchema = new mongoose.Schema(
             type: [String],
             default: [],
         },
+        state: {
+            type: String,
+            enum: ['pending', 'accepted', 'rejected'],
+            default: 'pending',
+            required: true,
+        },
     },
     { timestamps: true }
 )
