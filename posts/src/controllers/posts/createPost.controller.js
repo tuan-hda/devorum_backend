@@ -1,23 +1,24 @@
-const PostModel = require("../../models/Post");
-const TagModel = require("../../models/Tag");
+const PostModel = require('../../models/Post')
+const TagModel = require('../../models/Tag')
 
 const createPost = async (req, res, next) => {
-  try {
-    const user = req.user;
-    const { title, content, tags } = req.body;
+    try {
+        const user = req.user
+        const { title, content, tags } = req.body
 
-    const data = {
-      user: user._id,
-      title,
-      content,
-      tags,
-    };
+        const data = {
+            user: user._id,
+            title,
+            content,
+            tags,
+            community: req.body.community,
+        }
 
-    const post = await PostModel.create(data);
+        const post = await PostModel.create(data)
 
-    return res.status(200).json(post);
-  } catch (error) {
-    next(error);
-  }
-};
-module.exports = createPost;
+        return res.status(200).json(post)
+    } catch (error) {
+        next(error)
+    }
+}
+module.exports = createPost
