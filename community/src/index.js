@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const communityRoute = require('./routes/community.route.js')
 const bodyParser = require('body-parser')
 const { isHttpError } = require('http-errors')
+const initConsumer = require('./broker/initConsumer.js')
 
 process
     .on('unhandledRejection', (reason, p) => {
@@ -22,6 +23,8 @@ const connection = mongoose.connection
 connection.once('open', () => {
     console.log(new Date(), 'database established successfully')
 })
+
+initConsumer()
 
 app.use(cors({ origin: config.whitelist, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))

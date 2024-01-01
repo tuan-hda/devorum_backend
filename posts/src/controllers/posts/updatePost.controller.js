@@ -3,14 +3,15 @@ const createHttpError = require('http-errors')
 
 const updatePost = async (req, res, next) => {
     try {
-        const user = req.user
-        const { _id, title, content, tags, closed } = req.body
+        // const user = req.user
+        const { _id, title, content, tags, closed, state } = req.body
         console.log('🚀 ~ file: updatePost.controller.js:8 ~ updatePost ~ req.body:', req.body)
 
         const updatedData = {
             title,
             content,
             tags,
+            state,
             closed,
             closedAt: closed ? new Date() : null,
         }
@@ -19,10 +20,6 @@ const updatePost = async (req, res, next) => {
 
         if (!post) {
             throw createHttpError[404]('Not found')
-        }
-
-        if (post.user !== user._id) {
-            throw createHttpError[403]('Forbidden')
         }
 
         const update = { $set: updatedData }
