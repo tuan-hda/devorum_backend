@@ -40,17 +40,14 @@ const getUserProducer = async ({ username, id: userId, authUser }) => {
             (msg) => {
                 clearTimeout(timeout)
                 console.log('message response', msg.content.toString())
-                if (msg.properties.correlationId === id) {
-                    console.log(msg.content.toString())
-                    const response = JSON.parse(msg.content.toString())
-                    if (response.error) {
-                        reject(response.error)
-                    } else {
-                        resolve(response.data)
-                    }
+                console.log(msg.content.toString())
+                const response = JSON.parse(msg.content.toString())
+                if (response.error) {
+                    reject(response.error)
                 } else {
-                    reject(new Error('Data not found'))
+                    resolve(response.data)
                 }
+
                 channel.close()
             },
             { noAck: true }
