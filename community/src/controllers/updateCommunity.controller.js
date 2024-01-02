@@ -2,6 +2,9 @@ const createHttpError = require('http-errors')
 const CommunityModel = require('../models/Community')
 const checkCommunityExist = require('../services/checkCommunityExist')
 const checkCommunityOwner = require('../services/checkCommunityOwner')
+const client = require('../services/recombee')
+const recombee = require('recombee-api-client')
+const rqs = recombee.requests
 
 const excludeUpdateFields = new Set([
     '_id',
@@ -42,9 +45,35 @@ const updateCommunityController = async (req, res, next) => {
         }
 
         community.set(data)
-        await community.save()
+        const finalData = await community.save()
 
-        return res.status(200).json({ msg: 'Community updated' })
+        res.status(200).json({ msg: 'Community updated' })
+
+        client
+            .send(
+                new rqs.SetItemValues(
+                    finalData._id,
+                    {
+                        type: 'community',
+                        title: finalData.title,
+                        name: finalData.name,
+                        photo: finalData.photo,
+                        banner: finalData.banner,
+                        description: finalData.description,
+                        scrutinizeToPost: finalData.scrutinizeToPost,
+                    },
+                    {
+                        // optional parameters:
+                        cascadeCreate: true,
+                    }
+                )
+            )
+            .then((response) => {
+                //handle response
+            })
+            .catch((error) => {
+                //handle error
+            })
     } catch (error) {
         if (error?._message?.includes('validation failed')) {
             return next(createHttpError[400](error.errors))

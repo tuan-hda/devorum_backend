@@ -5,6 +5,9 @@ const {
     createNotificationProducer,
 } = require('../../broker/notificationProducer')
 const config = require('../../configs/config')
+const recombee = require('recombee-api-client')
+const client = require('../../services/recombee')
+const rqs = recombee.requests
 
 const followUserController = async (req, res, next) => {
     const errors = validationResult(req)

@@ -24,6 +24,7 @@
     "mongoose": "^8.0.0",
     "mongoose-delete": "^1.0.1",
     "mongoose-paginate-v2": "^1.7.4",
+    "recombee-api-client": "^4.1.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
