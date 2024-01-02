@@ -19,6 +19,16 @@ const addModController = require('../controllers/addMod.controller')
 const deleteModController = require('../controllers/deleteMod.controller')
 
 // Community
+router.get(
+    '/',
+    authenticateJWT,
+    require('../controllers/listCommunities.controller')
+)
+router.get(
+    '/all',
+    authenticateJWT,
+    require('../controllers/listAllCommunities.controller')
+)
 router.post('/', authenticateJWT, createCommunityController)
 router.get('/validity', authenticateJWT, checkValidityCommunityName)
 router.get(

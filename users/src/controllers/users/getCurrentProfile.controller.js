@@ -14,6 +14,7 @@ const getCurrentProfile = async (req, res, next) => {
                     effective: true,
                 })
             )?.map((block) => block.to) || []
+        profile.blocks = profile.blocks.filter((block) => block.effective)
         res.status(200).json(profile)
     } catch (error) {
         next(error)
