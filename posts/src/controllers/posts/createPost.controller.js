@@ -8,12 +8,12 @@ const createPost = async (req, res, next) => {
         const { title, content, tags } = req.body
         const community = req.body.community
 
-        let state = 'pending'
+        let state = 'accepted'
 
         if (community) {
             const communityData = await getCommunityProducer({ name: community })
-            if (communityData && !communityData[0]?.scrutinizeToPost) {
-                state = 'accepted'
+            if (communityData && communityData[0]?.scrutinizeToPost) {
+                state = 'pending'
             }
         }
 
