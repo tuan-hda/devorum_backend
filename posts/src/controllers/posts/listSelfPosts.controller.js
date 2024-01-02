@@ -3,11 +3,18 @@ const PostModel = require('../../models/Post')
 
 const listSelfPosts = async (req, res, next) => {
     try {
-        const user = req.user
+        const currentUser = req.user
+        const user = (await getUserProducer({ username: req.params.username }))[0]
+        console.log('user data from list self post', user)
         const condition = {
             user: user._id,
         }
-        const data = await PostModel.find(condition)
+
+        if (currentUser._id !== user._id) {
+            condition.state = 'accepted'
+        }
+
+        const data = await PostModel.find(condition).sort({ createdAt: -1 })
 
         const ids = data.map((post) => post.user) || []
         const users = await getUserProducer({ id: ids })

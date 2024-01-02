@@ -7,7 +7,21 @@ router.get(
     (req, res, next) => authenticateJWT(req, res, next, true),
     require('../controllers/posts/getPosts.controller')
 )
-router.get('/self', authenticateJWT, require('../controllers/posts/listSelfPosts.controller'))
+router.get(
+    '/recommend',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    require('../controllers/posts/recommend.controller')
+)
+router.get(
+    '/recommend/:id',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    require('../controllers/posts/recommend.controller')
+)
+router.get(
+    '/self/:username',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    require('../controllers/posts/listSelfPosts.controller')
+)
 
 router.post('/create', authenticateJWT, require('../controllers/posts/createPost.controller'))
 

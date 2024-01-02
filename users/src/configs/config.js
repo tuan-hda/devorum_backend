@@ -10,4 +10,7 @@ module.exports = {
     RPC_QUEUE_NAME: process.env.RPC_QUEUE_NAME || 'users_rpc_queue',
     REPLY_TO_QUEUE_NAME: process.env.REPLY_TO_QUEUE_NAME || 'users_queue',
     FRONTEND_DOMAIN: process.env.FRONTEND_DOMAIN || 'http://localhost:3000',
+    RECOMBEE_DATABASE_ID: process.env.RECOMBEE_DATABASE_ID,
+    RECOMBEE_DATABASE_PRIVATE_TOKEN:
+        process.env.RECOMBEE_DATABASE_PRIVATE_TOKEN,
 }
