@@ -6,19 +6,13 @@ const checkUserTitleExistInCommunity = require('../services/checkUserTitleExistI
 
 const selfUpdateCommunityStatusController = async (req, res, next) => {
     try {
+        console.log('self update')
         const user = req.user
         const name = req.params.name
         const title = req.body.title
         const mute = req.body.mute
 
         let community = await checkCommunityExist(name)
-        checkCommunityOwner(community, user)
-
-        if (!community.allowAligningTitle && title) {
-            throw createHttpError[400](
-                'Community does not allow aligning title yourself'
-            )
-        }
 
         const joinedStatus = await JoinedCommunityModel.findOne({
             username: user.username,

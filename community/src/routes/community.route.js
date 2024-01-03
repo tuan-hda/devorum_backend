@@ -17,6 +17,7 @@ const updateJoinedCommunityController = require('../controllers/updateJoinedComm
 const selfUpdateCommunityStatusController = require('../controllers/selfAssignUserTitle.controller')
 const addModController = require('../controllers/addMod.controller')
 const deleteModController = require('../controllers/deleteMod.controller')
+const listJoinedStatuses = require('../controllers/listJoinedStatus')
 
 // Community
 router.get(
@@ -36,6 +37,11 @@ router.get(
     (req, res, next) => authenticateJWT(req, res, next, true),
     getCommunityController
 )
+router.get(
+    '/:name/joined-status',
+    (req, res, next) => authenticateJWT(req, res, next, true),
+    listJoinedStatuses
+)
 router.put('/:name', authenticateJWT, updateCommunityController)
 
 // Members
@@ -46,17 +52,18 @@ router.get(
 )
 router.post('/:name/members', authenticateJWT, joinCommunityController)
 router.delete('/:name/members', authenticateJWT, leaveCommunityController)
-router.delete(
-    '/:name/members/:username',
-    authenticateJWT,
-    require('../controllers/removeUserFromCommunity.controller')
-)
 
 router.put(
     '/:name/members/self-update',
     authenticateJWT,
     selfUpdateCommunityStatusController
 )
+router.delete(
+    '/:name/members/:username',
+    authenticateJWT,
+    require('../controllers/removeUserFromCommunity.controller')
+)
+
 router.put(
     '/:name/members/:username',
     authenticateJWT,

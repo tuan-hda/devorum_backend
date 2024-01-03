@@ -21,9 +21,6 @@ const getCommunityMembersController = async (req, res, next) => {
                 communityId: community._id,
                 username: user.username,
             })
-            if (!isMember) {
-                throw createHttpError[403]('Forbidden')
-            }
         }
 
         let members = await JoinedCommunityModel.find({
