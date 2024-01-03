@@ -1,7 +1,6 @@
 version: "3"
 
-x-logging:
-  &default-logging
+x-logging: &default-logging
   logging:
     driver: json-file
     options:
@@ -16,7 +15,6 @@ services:
     volumes:
       - ./db/:/data/db
 
-
   nginx-proxy:
     build:
       dockerfile: Dockerfile
@@ -25,12 +23,7 @@ services:
       - users
       - upload
       - posts
-      - report
       - community
-      - chat
-      - server
-      - live
-      - notifications
     ports:
       - "80:80"
 
@@ -41,7 +34,6 @@ services:
     container_name: users
     ports:
       - "8001:8001"
-      - "50051:50051"
     restart: always
     depends_on:
       - "nosql-db"
@@ -72,134 +64,3 @@ services:
     restart: always
     volumes:
       - ./upload:/app/upload
-
-  posts:
-    build:
-      dockerfile: Dockerfile
-      context: posts
-    container_name: posts
-    ports:
-      - "8003:8003"
-    restart: always
-    depends_on:
-      - "nosql-db"
-    volumes:
-      - ./posts:/app/posts
-      - ./protos:/app/protos
-
-  chat:
-    build:
-      dockerfile: Dockerfile
-      context: chat
-    container_name: chat
-    ports:
-      - "8101:8101"
-    restart: always
-    depends_on:
-      - "nosql-db"
-    volumes:
-      - ./chat:/app/chat
-
-  live:
-    build:
-      dockerfile: Dockerfile
-      context: live
-    container_name: live
-    ports:
-      - "8102:8102"
-    restart: always
-    depends_on:
-      - "nosql-db"
-    volumes:
-      - ./live:/app/live
-
-  # judge0
-  server:
-    platform: linux/amd64
-    container_name: compiler
-    image: tuanhda/devorum-compiler
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
-    ports:
-      - "2358:2358"
-    privileged: true
-    <<: *default-logging
-    restart: always
-    depends_on:
-      - "redis"
-      - "db"
-
-  workers:
-    platform: linux/amd64
-    image: tuanhda/devorum-compiler
-    container_name: judge0-workers
-    command: ["./scripts/workers"]
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
-    privileged: true
-    <<: *default-logging
-    restart: always
-    depends_on:
-      - "redis"
-      - "db"
-
-  db:
-    image: postgres:13.0
-    env_file: judge0.conf
-    volumes:
-      - postgres-data:/var/lib/postgresql/data/
-    <<: *default-logging
-    restart: always
-
-  redis:
-    image: redis:6.0
-    command: [
-      "bash", "-c",
-      'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"'
-    ]
-    env_file: judge0.conf
-    volumes:
-      - redis-data:/data
-    <<: *default-logging
-    restart: always
-
-  # webssh2
-  webssh2:
-    image: billchurch/webssh2:0.5.0-pre-4
-    ports:
-      - "2222:2222"
-    container_name: webssh2
-    restart: always
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  report:
-    build:
-      dockerfile: Dockerfile
-      context: report
-    container_name: report
-    ports:
-      - "8103:8103"
-    restart: always
-    depends_on:
-      - "nosql-db"
-    volumes:
-      - ./report:/app/report
-
-  notifications:
-    build:
-      dockerfile: Dockerfile
-      context: notifications
-    container_name: notifications
-    ports:
-      - "8104:8104"
-    restart: always
-    depends_on:
-      - "nosql-db"
-    volumes:
-      - ./notifications:/app/notifications
-
-volumes:
-  postgres-data:
-  redis-data:
-
