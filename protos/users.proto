@@ -1,9 +1,0 @@
-syntax = 'proto3';
-
-package users.proto ;
-
-import "./messages/user_message.proto";
-
-service Users {
-rpc GetUser(UserRequest) returns (UserResponse){}
-}
