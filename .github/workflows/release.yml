@@ -25,3 +25,5 @@ jobs:
           cd ${{ matrix.service }}
           yarn install
           yarn semantic-release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
