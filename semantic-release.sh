@@ -10,7 +10,7 @@ do
   cd "$microservice"
   
   # Install Semantic Release as a dev dependency
-  npm install semantic-release --save-dev
+  npm install --save-dev semantic-release @semantic-release/changelog @semantic-release/git
 
   # Return to the root directory
   cd ..

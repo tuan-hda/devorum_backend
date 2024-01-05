@@ -8,8 +8,6 @@ x-logging: &default-logging
 
 services:
   nosql-db:
-    environment:
-      - IMAGE_TAG=v1.0
     image: mongo:5.0.23
     ports:
       - "27018:27017"
@@ -18,8 +16,7 @@ services:
       - ./db/:/data/db
 
   nginx-proxy:
-    environment:
-      - IMAGE_TAG=v1.0
+    image: proxy:1.0.0
     build:
       dockerfile: Dockerfile
       context: proxy
@@ -31,8 +28,7 @@ services:
       - "80:80"
 
   users:
-    environment:
-      - IMAGE_TAG=v1.0
+    image: users:1.0.0
     build:
       dockerfile: Dockerfile
       context: users
@@ -47,8 +43,7 @@ services:
       - ./protos:/app/protos
 
   community:
-    environment:
-      - IMAGE_TAG=v1.0
+    image: community:1.0.0
     build:
       dockerfile: Dockerfile
       context: community
@@ -62,8 +57,7 @@ services:
       - ./community:/app/community
 
   upload:
-    environment:
-      - IMAGE_TAG=v1.0
+    image: upload:1.0.0
     build:
       dockerfile: Dockerfile
       context: upload
