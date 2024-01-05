@@ -5,7 +5,7 @@
     "license": "MIT",
     "release": {
         "branches": [
-            "master",
+            "main",
             "cloud-semantic"
         ]
     },
