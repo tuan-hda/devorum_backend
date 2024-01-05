@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["boilerplate", "users", "community", "upload"]
+        service: ["boilerplate", "users", "community"]
 
     steps:
       - uses: actions/checkout@v2
