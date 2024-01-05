@@ -3,9 +3,12 @@
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
-    "branches": [
-        "cloud-semantic"
-    ],
+    "release": {
+        "branches": [
+            "master",
+            "cloud-semantic"
+        ]
+    },
     "scripts": {
         "start": "nodemon src/index.js",
         "production": "NODE_ENV=production node src/index.js",

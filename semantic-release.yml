@@ -1,4 +1,5 @@
-branches: ["cloud-semantic"]
+branches:
+  - cloud-semantic
 
 plugins:
   - "@semantic-release/commit-analyzer"
