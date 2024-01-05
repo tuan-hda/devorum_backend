@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["boilerplate", "proxy", "users", "community", "upload"]
+        service: ["boilerplate", "users", "community", "upload"]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,10 +18,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # specify your Node.js version
+          node-version: "16" # specify your Node.js version
 
       - name: Install Dependencies and Run Semantic Release
         run: |
           cd ${{ matrix.service }}
-          npm install
-          npx semantic-release
+          yarn install
+          yarn semantic-release
