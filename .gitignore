@@ -2,6 +2,7 @@
 users/node_modules
 users/.env
 users/coverage
+users/package-lock.json
 
 #post service
 posts/node_modules
@@ -11,10 +12,12 @@ posts/.env
 upload/node_modules
 upload/.env
 upload/uploads/*
+upload/package-lock.json
 
 # community service
 community/node_modules
 community/.env
+community/package-lock.json
 
 # chat service
 chat/node_modules
@@ -34,6 +37,7 @@ notifications/.env
 
 # # boilerplate
 boilerplate/node_modules
+boilerplate/package-lock.json
 # live/.env
 
 .DS_Store
