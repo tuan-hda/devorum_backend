@@ -3,8 +3,6 @@ name: Deploy on QA
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
     
 jobs:
   deploy_on_qa:

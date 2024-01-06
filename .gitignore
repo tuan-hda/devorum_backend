@@ -3,10 +3,38 @@ users/node_modules
 users/.env
 users/coverage
 
+#post service
+posts/node_modules
+posts/.env
+
 # upload service
 upload/node_modules
 upload/.env
 upload/uploads/*
+
+# community service
+community/node_modules
+community/.env
+
+# chat service
+chat/node_modules
+chat/.env
+
+# live
+live/node_modules
+live/.env
+
+# report
+report/node_modules
+report/.env
+
+# notifications
+notifications/node_modules
+notifications/.env
+
+# # boilerplate
+# live/node_modules
+# live/.env
 
 .DS_Store
 db/

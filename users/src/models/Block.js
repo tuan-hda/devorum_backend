@@ -1,30 +1,30 @@
 const mongoose = require('mongoose')
 
 const BlockSchema = new mongoose.Schema(
-  {
-    to: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
+    {
+        to: {
+            type: String,
+            ref: 'user',
+            required: true,
+        },
+        from: {
+            type: String,
+            ref: 'user',
+            required: true,
+        },
+        effective: {
+            type: Boolean,
+            required: true,
+            default: true,
+        },
+        expiresAfter: {
+            type: Date,
+            required: false,
+        },
     },
-    from: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
-    },
-    effective: {
-      type: Boolean,
-      required: true,
-      default: true,
-    },
-    expiresAfter: {
-      type: Date,
-      required: false,
-    },
-  },
-  {
-    timestamps: true,
-  }
+    {
+        timestamps: true,
+    }
 )
 
 BlockSchema.index({ to: 1, from: 1 }, { unique: true })
