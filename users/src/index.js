@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(config.PORT, () => {
-    console.log(new Date(), 'listening on port:', config.PORT)
+    console.log(new Date(), 'Listening on port:', config.PORT)
 })
 
 process.on('uncaughtException', function (err) {
