@@ -2,7 +2,7 @@ name: Rerun Failed Job
 
 on:
   workflow_run:
-    workflows: ["Semantic Release"]  # Your main workflow name
+    workflows: ["Semantic Release"] # Your main workflow name
     types:
       - completed
 
@@ -13,7 +13,8 @@ jobs:
     steps:
       - name: Check Previous Run Status
         id: check_status
-        run: echo "Previous run status: ${{ github.event.workflow_run.conclusion }}"
+        run: |
+          echo "Previous run status: ${{ github.event.workflow_run.conclusion }}"
 
       - name: Retry if Failed (Up to 3 Times)
         if: steps.check_status.outputs.status != 'success' && matrix.retry_count < 3
@@ -22,4 +23,3 @@ jobs:
           echo "Retry Count: ${{ matrix.retry_count }}"
         matrix:
           retry_count: [1, 2, 3]
-
